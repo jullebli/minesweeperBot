@@ -111,7 +111,7 @@ public class Square {
     /**
      * Number of surrounding Squares that have a mine.
      *
-     * <u><b>Trying to use this method without first openeing the Square will result in an AssertionException</b></u>
+     * <u><b>Trying to use this method without first opening the Square will result in an AssertionException</b></u>
      *
      * @return The number of surrounding Squares that have a mine.
      */
