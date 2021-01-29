@@ -7,7 +7,7 @@ import minesweeper.model.Board;
 import minesweeper.model.GameStats;
 import minesweeper.model.Move;
 import minesweeper.model.MoveType;
-import minesweeper.model.Highlight;
+//import minesweeper.model.Highlight;
 import minesweeper.model.Pair;
 import minesweeper.model.Square;
 
@@ -15,6 +15,7 @@ public class FirstBot implements Bot {
 
     private Random rng = new Random();
     private GameStats gameStats;
+    private int movesMade = 0;
 
     /**
      * Make a single decision based on the given Board state
@@ -24,6 +25,12 @@ public class FirstBot implements Bot {
      */
     @Override
     public Move makeMove(Board board) {
+        if (movesMade++ == 0) {
+            return new Move(MoveType.OPEN,
+                            board.width/2,
+                            board.height/2);
+        }
+        
         ArrayList<Move> possibleMoves = getPossibleMoves(board);
         if (!possibleMoves.isEmpty()) {
             return possibleMoves.get(0);
@@ -33,8 +40,6 @@ public class FirstBot implements Bot {
         int x = (int) pair.first;
         int y = (int) pair.second;
 
-        // The TestBot isn't very smart and randomly
-        // decides what move should be made using java.util.Random
         System.out.println("Random move: " + x + ", " + y);
         System.out.flush();
         return new Move(MoveType.OPEN, x, y);
@@ -67,6 +72,14 @@ public class FirstBot implements Bot {
         return moves;
     }
 
+    //AMN
+    /**
+     * Find out squares that are mines and those squares are flagged.
+     * 
+     * 
+     * @param board The current board state
+     * @return a list of flag moves
+     */
     private ArrayList<Move> getPossibleMovesAlgo1(Board board) {
         ArrayList<Move> movesToMake = new ArrayList<>();
         HashSet<Square> opened = board.getOpenSquares();
@@ -101,6 +114,14 @@ public class FirstBot implements Bot {
         return movesToMake;
     }
 
+    //AFN
+    /**
+     * Find out squares that don't have mines. They are safe
+     * to open and unflagged.
+     * 
+     * @param board The current board state.
+     * @return a list of squares that don't have a mine.
+     */
     private ArrayList<Move> getPossibleMovesAlgo2(Board board) {
         ArrayList<Move> movesToMake = new ArrayList<>();
         HashSet<Square> opened = board.getOpenSquares();
@@ -137,7 +158,7 @@ public class FirstBot implements Bot {
 
         return movesToMake;
     }
-
+    
     /**
      * Used to pass the bot the gameStats object, useful for tracking previous
      * moves
