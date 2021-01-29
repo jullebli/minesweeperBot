@@ -5,9 +5,9 @@ This project is a part of the course Data Structures Project in my Bachelor's in
 The code of the game has been made by other students and is offered as a base for this course's students for making a minesweeper solver/helper.
 
 ### The algorithms that I will use in this project:
- -Algorithm for finding mines and flagging them according to opened squares with numbers
- -Algorithm for finding squares that are safe to open according to flags and opened squares with numbers
- -backtracking search: finding squares with the smallest probability if containing a mine by going through all the possible variations to place mines (according to flags and numbered neighbouring squares). The variations will be split into subsets (if there are regions that are disjoint) if possible.
+- Algorithm for finding mines and flagging them according to opened squares with numbers
+- Algorithm for finding squares that are safe to open according to flags and opened squares with numbers
+- backtracking search: finding squares with the smallest probability if containing a mine by going through all the possible variations to place mines (according to flags and numbered neighbouring squares). The variations will be split into subsets (if there are regions that are disjoint) if possible.
  
  I chose the first two algorithms based on my own playing experiences. The backtracking search was chosen because it seems to fit in this scenario and has been used by many others after researching the topic. I need to solve problems about determing where the mines are according to opened neighbouring squares's numbers. I need to solve the problem of which squares are safe to open (have no mine). And when I can't use the first two algorithms then I need to solve the problem of comparing different alternatives of mine locations and finding safest square to open. Safest square is the one with lowest possibility of having the mine among alternatives. I need to solve the problem what to do when I don't have enough information. The game cannot be always won since sometimes you just don't have enough information about the squares and then you just need to guess.
  
