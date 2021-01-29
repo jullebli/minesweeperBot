@@ -57,7 +57,7 @@ public class GameView {
      * minefield is generated from system's time
      */
     public GameView(int x, int y, VBox vbox, int mines) {
-        this(x, y, vbox, mines, System.nanoTime() / 2L);
+        this(x, y, vbox, mines, 5);
     }
 
     /**
