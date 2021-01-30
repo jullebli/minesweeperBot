@@ -18,8 +18,8 @@ public class SecondBot implements Bot {
     private Random rng = new Random();
     private GameStats gameStats;
     private boolean firstMove = true;
-    private Set<Square> S = new HashSet<>();
-    private Set<Square> Q = new HashSet<>();
+    private Set<Square> setS = new HashSet<>();
+    private Set<Square> setQ = new HashSet<>();
     private Set<Square> marked = new HashSet<>();
     private Square prev; //most recently opened square
 
@@ -39,37 +39,37 @@ public class SecondBot implements Bot {
         }
 
         if (isAFN(prev, board)) {
-            S.addAll(getUnmarkedNeighbours(prev, board));
+            setS.addAll(getUnmarkedNeighbours(prev, board));
         } else {
-            Q.add(prev);
+            setQ.add(prev);
         }
 
-        if (!S.isEmpty()) {
-            prev = S.iterator().next();
-            S.remove(prev);
+        if (!setS.isEmpty()) {
+            prev = setS.iterator().next();
+            setS.remove(prev);
             System.out.println("move from S");
             return new Move(MoveType.OPEN, prev.getX(), prev.getY());
         }
 
-        Iterator<Square> it = Q.iterator();
+        Iterator<Square> it = setQ.iterator();
         while (it.hasNext()) {
             Square q = it.next();
             if (isAMN(q, board)) {
                 for (Square y : getUnmarkedNeighbours(q, board)) {
                     marked.add(y);
                 }
-                Q.remove(q);
+                setQ.remove(q);
             }
         }
 
-        for (Square q : Q) {
+        for (Square q : setQ) {
             if (isAFN(q, board)) {
-                S.addAll(getUnmarkedNeighbours(q, board));
-                Q.remove(q);
+                setS.addAll(getUnmarkedNeighbours(q, board));
+                setQ.remove(q);
             }
         }
 
-        if (S.isEmpty()) {
+        if (setS.isEmpty()) {
             //Here should be the third algorithm CSP? Now just random square
             System.out.println("Picking random (S is empty)");
             Pair<Integer> pair = findUnopenedSquare(board);
@@ -95,7 +95,7 @@ public class SecondBot implements Bot {
     @Override
     public ArrayList<Move> getPossibleMoves(Board board) {
         ArrayList<Move> moves = new ArrayList<>();
-        for (Square square : S) {
+        for (Square square : setS) {
             moves.add(new Move(square.getX(), square.getY(), Highlight.GREEN));
         }
         return moves;

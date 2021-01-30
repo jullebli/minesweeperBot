@@ -27,8 +27,8 @@ public class FirstBot implements Bot {
     public Move makeMove(Board board) {
         if (movesMade++ == 0) {
             return new Move(MoveType.OPEN,
-                            board.width/2,
-                            board.height/2);
+                            board.width / 2,
+                            board.height / 2);
         }
         
         ArrayList<Move> possibleMoves = getPossibleMoves(board);
