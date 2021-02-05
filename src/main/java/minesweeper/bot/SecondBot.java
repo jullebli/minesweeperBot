@@ -3,14 +3,9 @@ package minesweeper.bot;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import minesweeper.model.Board;
 import minesweeper.model.GameStats;
 import minesweeper.model.Move;
@@ -31,8 +26,7 @@ public class SecondBot implements Bot {
     private ArrayList<Square> flagsToDraw = new ArrayList<>();
     private Square prev; //most recently opened square
     private boolean makeRandomMoves = false;
-    
-    
+
     /**
      * Make a single decision based on the given Board state
      *
@@ -50,7 +44,7 @@ public class SecondBot implements Bot {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException ex) {
-                
+
             }
             return new Move(MoveType.FLAG, board.width - 1, board.height - 1);
         }
@@ -84,32 +78,29 @@ public class SecondBot implements Bot {
                 return openMove(prev);
             }
 
-            {
-                Iterator<Square> it = setQ.iterator();
-                while (it.hasNext()) {
-                    Square q = it.next();
-                    System.out.println("Checking isAMN(" + squareToString(q) + ")");
-                    if (isAMN(q, board)) {
-                        System.out.println("isAMN = true");
-                        for (Square y : getUnmarkedNeighbours(q, board)) {
-                            System.out.println("marked.add(" + squareToString(y) + ")");
-                            marked.add(y);
-                            flagsToDraw.add(y);
-                        }
-                        it.remove();
+            Iterator<Square> it = setQ.iterator();
+            while (it.hasNext()) {
+                Square q = it.next();
+                System.out.println("Checking isAMN(" + squareToString(q) + ")");
+                if (isAMN(q, board)) {
+                    System.out.println("isAMN = true");
+                    for (Square y : getUnmarkedNeighbours(q, board)) {
+                        System.out.println("marked.add(" + squareToString(y) + ")");
+                        marked.add(y);
+                        flagsToDraw.add(y);
                     }
+                    it.remove();
                 }
             }
-            {
-                Iterator<Square> it = setQ.iterator();
-                while (it.hasNext()) {
-                    Square q = it.next();
-                    System.out.println("Checking isAFN(" + squareToString(q) + ")");
-                    if (isAFN(q, board)) {
-                        System.out.println("isAFN = true");
-                        setS.addAll(getUnmarkedNeighbours(q, board));
-                        it.remove();
-                    }
+
+            Iterator<Square> it2 = setQ.iterator();
+            while (it2.hasNext()) {
+                Square q = it2.next();
+                System.out.println("Checking isAFN(" + squareToString(q) + ")");
+                if (isAFN(q, board)) {
+                    System.out.println("isAFN = true");
+                    setS.addAll(getUnmarkedNeighbours(q, board));
+                    it2.remove();
                 }
             }
 
@@ -186,8 +177,8 @@ public class SecondBot implements Bot {
     private boolean isAMN(Square square, Board board) {
         Set<Square> markedNeighbours = getMarkedNeighbours(square, board);
         System.out.println("AMN:markedNeighbours = " + markedNeighbours.size());
-        return square.surroundingMines() - markedNeighbours.size() == 
-                getUnmarkedNeighbours(square, board).size();
+        return square.surroundingMines() - markedNeighbours.size()
+                == getUnmarkedNeighbours(square, board).size();
     }
 
     /**
@@ -217,6 +208,7 @@ public class SecondBot implements Bot {
         }
         return neighbours;
     }
+
     /**
      * Get the square's all marked neighbours as a set.
      *
@@ -304,6 +296,7 @@ public class SecondBot implements Bot {
 
     /**
      * Used only for testing/debugging. Converts Square to String
+     *
      * @param s Square variable
      * @return Square as String
      */
@@ -326,5 +319,5 @@ public class SecondBot implements Bot {
         opened.add(square);
         return new Move(MoveType.OPEN, square.getX(), square.getY());
     }
-    
+
 }

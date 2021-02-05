@@ -72,7 +72,7 @@ javafx {
 
 application {
     // Define the main class for the application
-    mainClassName = 'minesweeper.App'
+    mainClassName = 'minesweeper.AppLauncher'
 }
 
 checkstyle {
@@ -88,3 +88,9 @@ task headlessTest(type:JavaExec) {
    main = 'minesweeper.TestApp'
 }
 
+//javafx modules are missing
+jar {
+    manifest {
+        attributes 'Main-Class': 'minesweeper.AppLauncher'
+    }
+}
