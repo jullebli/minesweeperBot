@@ -5,6 +5,7 @@ A minesweeper solver/helper made in the course DATA STRUCTURES PROJECT (4 CR). T
 ## Documentation
 
 - [Project specification](https://github.com/jullebli/minesweeperBot/blob/master/documentation/project-specification.md)
+- [Testing documentation](https://github.com/jullebli/minesweeperBot/blob/master/documentation/testingDocumentation.md)
 
 ## Weekly reports
 
