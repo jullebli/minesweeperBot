@@ -18,15 +18,16 @@ public class SecondBotTest {
     public void setUp() {
         this.bot = BotSelect.getBot();
         this.generator = new MinefieldGenerator();
-        board = new Board(new MinefieldGenerator(5), 30, 16, 99);
-        generator.generate(board, 99, 1, 1);
+        board = new Board(new MinefieldGenerator(6), 16, 16, 40);
+        generator.generate(board, 40, 0, 0);
     }
 
     @Test
-    public void firsMoveIsOpensRightSquare() {
+    public void botOpensLeftTopCorner() {
         Move move = this.bot.makeMove(this.board);
         this.board.makeMove(move);
         Square s = board.getSquareAt(0, 0);
+        System.out.println(board.toString());
         assertTrue(s.isOpened());
     }
 
@@ -34,11 +35,12 @@ public class SecondBotTest {
     public void firsMoveOpensAtLeastOneSquare() {
         Move move = this.bot.makeMove(this.board);
         this.board.makeMove(move);
+        System.out.println("board opened squares = " + board.getOpenSquares());
         assertTrue(board.getOpenSquares().size() >= 1);
     }
 
     @Test
-    public void squareBottomLeftIsNotMine() {
+    public void squareTopLeftIsNotMine() {
         Move move = this.bot.makeMove(this.board);
         this.board.makeMove(move);
         Square s = board.getSquareAt(0, 0);
@@ -59,18 +61,10 @@ public class SecondBotTest {
         //the board changes sometimes even though I use a seed
         Move move = this.bot.makeMove(this.board);
         this.board.makeMove(move);
-        System.out.println(board.toString());
         Move move2 = this.bot.makeMove(this.board);
         this.board.makeMove(move2);
-        System.out.println(board.toString());
         Move move3 = this.bot.makeMove(this.board);
         this.board.makeMove(move3);
-        System.out.println(board.toString());
-        Move move4 = this.bot.makeMove(this.board);
-        this.board.makeMove(move4);
-        System.out.println(board.toString());
-        Move move5 = this.bot.makeMove(this.board);
-        this.board.makeMove(move5);
         System.out.println(board.toString());
         
     }

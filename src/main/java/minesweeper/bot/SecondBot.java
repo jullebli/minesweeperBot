@@ -128,10 +128,17 @@ public class SecondBot implements Bot {
      */
     @Override
     public ArrayList<Move> getPossibleMoves(Board board) {
+        //This does not work yet
+        System.out.println("Help(bot) was clicked");
         ArrayList<Move> moves = new ArrayList<>();
+        while (setS.isEmpty()) {
+            Move move = makeMove(board);
+        }
+        
         for (Square square : setS) {
             moves.add(new Move(square.getX(), square.getY(), Highlight.GREEN));
         }
+        System.out.println("Size of possible moves list = " + moves.size());
         return moves;
     }
 
