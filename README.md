@@ -2,6 +2,10 @@
 
 A minesweeper solver/helper made in the course DATA STRUCTURES PROJECT (4 CR). The implementation code of the minesweeper game has not been made by me. It was offered as a base to help develope the solver/helper and has been made by other students on another course. My work/code consists of the bot imlementations: FirstBot and SecondBot and their tests.
 
+I recommend copying the git repository and then running the program with command:
+
+./gradlew jar && java -cp build/libs/minesweeper.jar:/usr/share/java/javafx-base.jar:/usr/share/java/javafx-controls.jar:/usr/share/java/javafx-graphics-11.jar minesweeper.AppLauncher 
+
 ## Documentation
 
 - [Project specification](https://github.com/jullebli/minesweeperBot/blob/master/documentation/project-specification.md)
