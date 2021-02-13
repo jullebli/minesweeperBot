@@ -10,6 +10,7 @@ I recommend copying the git repository and then running the program with command
 
 - [Project specification](https://github.com/jullebli/minesweeperBot/blob/master/documentation/project-specification.md)
 - [Testing documentation](https://github.com/jullebli/minesweeperBot/blob/master/documentation/testingDocumentation.md)
+- [Implementation documentation](https://github.com/jullebli/minesweeperBot/blob/master/documentation/implementationDocumentation.md)
 
 ## Weekly reports
 
