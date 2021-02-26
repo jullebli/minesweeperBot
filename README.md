@@ -19,3 +19,4 @@ I recommend copying the git repository and then running the program with command
 - [Week 3 report](https://github.com/jullebli/minesweeperBot/blob/master/documentation/week3report.md)
 - [Week 4 report](https://github.com/jullebli/minesweeperBot/blob/master/documentation/week4report.md)
 - [Week 5 report](https://github.com/jullebli/minesweeperBot/blob/master/documentation/week5report.md)
+- [Week 6 report](https://github.com/jullebli/minesweeperBot/blob/master/documentation/week6report.md)
