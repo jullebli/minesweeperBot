@@ -40,8 +40,8 @@ public class FirstBot implements Bot {
         int x = (int) pair.first;
         int y = (int) pair.second;
 
-        System.out.println("Random move: " + x + ", " + y);
-        System.out.flush();
+        //System.out.println("Random move: " + x + ", " + y);
+        //System.out.flush();
         return new Move(MoveType.OPEN, x, y);
 
     }
@@ -58,15 +58,15 @@ public class FirstBot implements Bot {
     public ArrayList<Move> getPossibleMoves(Board board) {
         ArrayList<Move> moves = getPossibleMovesAlgo1(board);
         if (moves.size() > 0) {
-            System.out.println("Algo1 Move: " + moves.get(0).x + ", " + moves.get(0).y);
-            System.out.flush();
+           // System.out.println("Algo1 Move: " + moves.get(0).x + ", " + moves.get(0).y);
+           // System.out.flush();
             return moves;
         }
 
         moves.addAll(getPossibleMovesAlgo2(board));
         if (moves.size() > 0) {
-            System.out.println("Algo2 Move: " + moves.get(0).x + ", " + moves.get(0).y);
-            System.out.flush();
+            //System.out.println("Algo2 Move: " + moves.get(0).x + ", " + moves.get(0).y);
+            //System.out.flush();
             return moves;
         }
         return moves;
@@ -86,6 +86,9 @@ public class FirstBot implements Bot {
 
         for (Square square : opened) {
             int surroundingMines = square.surroundingMines();
+            if (surroundingMines == 0) {
+                continue;
+            }
             HashSet<Square> surroundingUnopened = new HashSet<>();
 
             for (int xInc = -1; xInc <= 1; xInc++) {
