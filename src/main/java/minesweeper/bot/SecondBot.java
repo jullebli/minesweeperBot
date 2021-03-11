@@ -25,7 +25,6 @@ public class SecondBot implements Bot {
     private Set<Square> opened = new HashSet<>();
     private ArrayList<Square> flagsToDraw = new ArrayList<>();
     private Square prev; //most recently opened square
-    private boolean makeRandomMoves = false;
 
     /**
      * Make a single decision based on the given Board state
@@ -40,32 +39,25 @@ public class SecondBot implements Bot {
             flagsToDraw.remove(0);
             return new Move(MoveType.FLAG, s.getX(), s.getY());
         }
-        if (makeRandomMoves) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException ex) {
 
-            }
-            return new Move(MoveType.FLAG, board.width - 1, board.height - 1);
-        }
-        System.out.println("makeMove called: S = "
+       /* System.out.println("makeMove called: S = "
                 + squareSetToString(setS) + "\n Q = "
                 + squareSetToString(setQ) + "\n marked = "
                 + squareSetToString(marked) + "\n prev = "
-                + squareToString(prev));
+                + squareToString(prev)); */
 
         if (firstMove) {
             firstMove = false;
             prev = board.getSquareAt(0, 0);
-            System.out.println("First move");
+            //System.out.println("First move");
             return openMove(prev);
         }
 
         if (isAFN(prev, board)) {
-            System.out.println("isAFN = true");
+            //System.out.println("isAFN = true");
             setS.addAll(getUnmarkedNeighbours(prev, board));
         } else {
-            System.out.println("isAFN = false, prev added to setQ");
+            //System.out.println("isAFN = false, prev added to setQ");
             setQ.add(prev);
         }
 
@@ -73,19 +65,19 @@ public class SecondBot implements Bot {
             if (!setS.isEmpty()) {
                 prev = setS.iterator().next();
                 setS.remove(prev);
-                System.out.println("setS is not empty returning "
-                        + squareToString(prev));
+                //System.out.println("setS is not empty returning "
+                //        + squareToString(prev));
                 return openMove(prev);
             }
 
             Iterator<Square> it = setQ.iterator();
             while (it.hasNext()) {
                 Square q = it.next();
-                System.out.println("Checking isAMN(" + squareToString(q) + ")");
+                //System.out.println("Checking isAMN(" + squareToString(q) + ")");
                 if (isAMN(q, board)) {
-                    System.out.println("isAMN = true");
+                    //System.out.println("isAMN = true");
                     for (Square y : getUnmarkedNeighbours(q, board)) {
-                        System.out.println("marked.add(" + squareToString(y) + ")");
+                        //System.out.println("marked.add(" + squareToString(y) + ")");
                         marked.add(y);
                         flagsToDraw.add(y);
                     }
@@ -96,9 +88,9 @@ public class SecondBot implements Bot {
             Iterator<Square> it2 = setQ.iterator();
             while (it2.hasNext()) {
                 Square q = it2.next();
-                System.out.println("Checking isAFN(" + squareToString(q) + ")");
+                //System.out.println("Checking isAFN(" + squareToString(q) + ")");
                 if (isAFN(q, board)) {
-                    System.out.println("isAFN = true");
+                    //System.out.println("isAFN = true");
                     setS.addAll(getUnmarkedNeighbours(q, board));
                     it2.remove();
                 }
@@ -106,14 +98,12 @@ public class SecondBot implements Bot {
 
             if (setS.isEmpty()) {
                 //Here should be the third algorithm CSP? Now just random square
-                System.out.println("Picking random (S is empty)");
+                //System.out.println("Picking random (S is empty)");
                 Pair<Integer> pair = findUnopenedSquare(board);
                 int x = (int) pair.first;
                 int y = (int) pair.second;
-                makeRandomMoves = true;
-                return new Move(MoveType.FLAG, board.width - 1, board.height - 1);
 
-                //setS.add(board.getSquareAt(x, y));
+                setS.add(board.getSquareAt(x, y));
             }
         }
     }
@@ -167,7 +157,7 @@ public class SecondBot implements Bot {
                 }
             }
         }
-        System.out.println("isAFN(" + squareToString(square) + ") = " + flaggedNeighbours);
+        //System.out.println("isAFN(" + squareToString(square) + ") = " + flaggedNeighbours);
         return square.surroundingMines() == flaggedNeighbours;
     }
 
@@ -183,7 +173,7 @@ public class SecondBot implements Bot {
      */
     private boolean isAMN(Square square, Board board) {
         Set<Square> markedNeighbours = getMarkedNeighbours(square, board);
-        System.out.println("AMN:markedNeighbours = " + markedNeighbours.size());
+        //System.out.println("AMN:markedNeighbours = " + markedNeighbours.size());
         return square.surroundingMines() - markedNeighbours.size()
                 == getUnmarkedNeighbours(square, board).size();
     }
