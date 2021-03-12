@@ -2,12 +2,13 @@ package minesweeper.bot;
 
 import java.util.HashSet;
 import java.util.Random;
-import java.util.ArrayList;
+import java.util.ArrayList; //getPossibleMoves needs to return an ArrayList
+import minesweeper.util.MyList;
 import minesweeper.model.Board;
 import minesweeper.model.GameStats;
 import minesweeper.model.Move;
 import minesweeper.model.MoveType;
-//import minesweeper.model.Highlight;
+import minesweeper.model.Highlight;
 import minesweeper.model.Pair;
 import minesweeper.model.Square;
 
@@ -27,11 +28,11 @@ public class FirstBot implements Bot {
     public Move makeMove(Board board) {
         if (movesMade++ == 0) {
             return new Move(MoveType.OPEN,
-                            board.width / 2,
-                            board.height / 2);
+                    board.width / 2,
+                    board.height / 2);
         }
-        
-        ArrayList<Move> possibleMoves = getPossibleMoves(board);
+
+        MyList<Move> possibleMoves = getPossibleMovesAsMyList(board);
         if (!possibleMoves.isEmpty()) {
             return possibleMoves.get(0);
         }
@@ -48,18 +49,27 @@ public class FirstBot implements Bot {
 
     /**
      * Return multiple possible moves to make based on current board state.
-     * Suggested to be used for a "helper" bot to provide multiple highlights at
-     * once.
      *
      * @param board The current board state.
      * @return List of moves for current board.
      */
     @Override
     public ArrayList<Move> getPossibleMoves(Board board) {
-        ArrayList<Move> moves = getPossibleMovesAlgo1(board);
+        ArrayList<Move> possibleMoves = getPossibleMovesAsMyList(board).toArrayList();
+        return possibleMoves;
+    }
+    
+    /**
+     * Return multiple possible moves to make based on current board state.
+     *
+     * @param board The current board state.
+     * @return List of moves for current board.
+     */
+    private MyList<Move> getPossibleMovesAsMyList(Board board) {
+        MyList<Move> moves = getPossibleMovesAlgo1(board);
         if (moves.size() > 0) {
-           // System.out.println("Algo1 Move: " + moves.get(0).x + ", " + moves.get(0).y);
-           // System.out.flush();
+            // System.out.println("Algo1 Move: " + moves.get(0).x + ", " + moves.get(0).y);
+            // System.out.flush();
             return moves;
         }
 
@@ -75,13 +85,13 @@ public class FirstBot implements Bot {
     //AMN
     /**
      * Find out squares that are mines and those squares are flagged.
-     * 
-     * 
+     *
+     *
      * @param board The current board state
      * @return a list of flag moves
      */
-    private ArrayList<Move> getPossibleMovesAlgo1(Board board) {
-        ArrayList<Move> movesToMake = new ArrayList<>();
+    private MyList<Move> getPossibleMovesAlgo1(Board board) {
+        MyList<Move> movesToMake = new MyList<>();
         HashSet<Square> opened = board.getOpenSquares();
 
         for (Square square : opened) {
@@ -119,14 +129,14 @@ public class FirstBot implements Bot {
 
     //AFN
     /**
-     * Find out squares that don't have mines. They are safe
-     * to open and unflagged.
-     * 
+     * Find out squares that don't have mines. They are safe to open and are
+     * unflagged.
+     *
      * @param board The current board state.
      * @return a list of squares that don't have a mine.
      */
-    private ArrayList<Move> getPossibleMovesAlgo2(Board board) {
-        ArrayList<Move> movesToMake = new ArrayList<>();
+    private MyList<Move> getPossibleMovesAlgo2(Board board) {
+        MyList<Move> movesToMake = new MyList<>();
         HashSet<Square> opened = board.getOpenSquares();
 
         for (Square square : opened) {
@@ -161,7 +171,7 @@ public class FirstBot implements Bot {
 
         return movesToMake;
     }
-    
+
     /**
      * Used to pass the bot the gameStats object, useful for tracking previous
      * moves

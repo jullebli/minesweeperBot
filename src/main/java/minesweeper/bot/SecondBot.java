@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import minesweeper.util.MyList;
 import minesweeper.model.Board;
 import minesweeper.model.GameStats;
 import minesweeper.model.Move;
@@ -23,7 +24,7 @@ public class SecondBot implements Bot {
     private Set<Square> setQ = new LinkedHashSet<>();
     private Set<Square> marked = new HashSet<>();
     private Set<Square> opened = new HashSet<>();
-    private ArrayList<Square> flagsToDraw = new ArrayList<>();
+    private MyList<Square> flagsToDraw = new MyList<>();
     private Square prev; //most recently opened square
 
     /**
@@ -40,12 +41,11 @@ public class SecondBot implements Bot {
             return new Move(MoveType.FLAG, s.getX(), s.getY());
         }
 
-       /* System.out.println("makeMove called: S = "
+        /* System.out.println("makeMove called: S = "
                 + squareSetToString(setS) + "\n Q = "
                 + squareSetToString(setQ) + "\n marked = "
                 + squareSetToString(marked) + "\n prev = "
                 + squareToString(prev)); */
-
         if (firstMove) {
             firstMove = false;
             prev = board.getSquareAt(0, 0);
@@ -110,8 +110,6 @@ public class SecondBot implements Bot {
 
     /**
      * Return multiple possible moves to make based on current board state.
-     * Suggested to be used for a "helper" bot to provide multiple highlights at
-     * once.
      *
      * @param board The current board state.
      * @return List of moves for current board.
@@ -119,16 +117,29 @@ public class SecondBot implements Bot {
     @Override
     public ArrayList<Move> getPossibleMoves(Board board) {
         //This does not work yet
+        ArrayList<Move> arrayList = getPossibleMovesAsMyList(board).toArrayList();
+        return arrayList;
+    }
+
+    /**
+     * Return multiple possible moves to make based on current board state.
+     *
+     * @param board The current board state.
+     * @return List of moves for current board.
+     */
+    public MyList<Move> getPossibleMovesAsMyList(Board board) {
+        //This does not work yet
         System.out.println("Help(bot) was clicked");
-        ArrayList<Move> moves = new ArrayList<>();
+        MyList<Move> moves = new MyList<>();
         while (setS.isEmpty()) {
             Move move = makeMove(board);
         }
-        
+
         for (Square square : setS) {
             moves.add(new Move(square.getX(), square.getY(), Highlight.GREEN));
         }
         System.out.println("Size of possible moves list = " + moves.size());
+
         return moves;
     }
 
