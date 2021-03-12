@@ -130,15 +130,67 @@ public class SecondBot implements Bot {
     public MyList<Move> getPossibleMovesAsMyList(Board board) {
         //This does not work yet
         System.out.println("Help(bot) was clicked");
-        MyList<Move> moves = new MyList<>();
-        while (setS.isEmpty()) {
-            Move move = makeMove(board);
+
+        setS = new LinkedHashSet<>();
+        setQ = new LinkedHashSet<>();
+        marked = new HashSet<>();
+        opened = new HashSet<>();
+
+        for (int y = 0; y < board.height; y++) {
+            for (int x = 0; x < board.width; x++) {
+                Square s = board.getSquareAt(x, y);
+                if (s.isOpened()) {
+                    opened.add(s);
+                } else if (s.isFlagged()) {
+                    marked.add(s);
+                }
+            }
         }
+
+        for (Square s : opened) {
+            if (isAFN(s, board)) {
+                setS.addAll(getUnmarkedNeighbours(s, board));
+            } else {
+                setQ.add(s);
+            }
+
+            Iterator<Square> it = setQ.iterator();
+            while (it.hasNext()) {
+                Square q = it.next();
+                //System.out.println("Checking isAMN(" + squareToString(q) + ")");
+                if (isAMN(q, board)) {
+                    //System.out.println("isAMN = true");
+                    for (Square y : getUnmarkedNeighbours(q, board)) {
+                        //System.out.println("marked.add(" + squareToString(y) + ")");
+                        marked.add(y);
+                    }
+                    it.remove();
+                }
+            }
+
+            Iterator<Square> it2 = setQ.iterator();
+            while (it2.hasNext()) {
+                Square q = it2.next();
+                //System.out.println("Checking isAFN(" + squareToString(q) + ")");
+                if (isAFN(q, board)) {
+                    //System.out.println("isAFN = true");
+                    setS.addAll(getUnmarkedNeighbours(q, board));
+                    it2.remove();
+                }
+            }
+        }
+
+        MyList<Move> moves = new MyList<>();
 
         for (Square square : setS) {
             moves.add(new Move(square.getX(), square.getY(), Highlight.GREEN));
         }
         System.out.println("Size of possible moves list = " + moves.size());
+        for (Square square : marked) {
+            if (!square.isFlagged()) {
+                moves.add(new Move(square.getX(), square.getY(), Highlight.RED));
+            }
+        }
 
         return moves;
     }

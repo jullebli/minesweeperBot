@@ -32,7 +32,7 @@ public class FirstBot implements Bot {
                     board.height / 2);
         }
 
-        MyList<Move> possibleMoves = getPossibleMovesAsMyList(board);
+        MyList<Move> possibleMoves = getPossibleMovesAsMyList(board, false);
         if (!possibleMoves.isEmpty()) {
             return possibleMoves.get(0);
         }
@@ -55,26 +55,37 @@ public class FirstBot implements Bot {
      */
     @Override
     public ArrayList<Move> getPossibleMoves(Board board) {
-        ArrayList<Move> possibleMoves = getPossibleMovesAsMyList(board).toArrayList();
-        return possibleMoves;
+        MyList<Move> moves = getPossibleMovesAsMyList(board, true);
+        MyList<Move> highlightMoves = new MyList();
+        
+        for (int i = 0; i < moves.size(); i++) {
+            Move move = moves.get(i);
+            if (move.type == MoveType.OPEN) {
+                highlightMoves.add(new Move(move.x, move.y, Highlight.GREEN));
+            } else if (move.type == MoveType.FLAG) {
+                highlightMoves.add(new Move(move.x, move.y, Highlight.RED));
+            }
+            
+        }
+        return highlightMoves.toArrayList();
     }
-    
+
     /**
      * Return multiple possible moves to make based on current board state.
      *
      * @param board The current board state.
      * @return List of moves for current board.
      */
-    private MyList<Move> getPossibleMovesAsMyList(Board board) {
+    private MyList<Move> getPossibleMovesAsMyList(Board board, boolean returnAllMoves) {
         MyList<Move> moves = getPossibleMovesAlgo1(board);
-        if (moves.size() > 0) {
+        if (moves.size() > 0 && !returnAllMoves) {
             // System.out.println("Algo1 Move: " + moves.get(0).x + ", " + moves.get(0).y);
             // System.out.flush();
             return moves;
         }
 
         moves.addAll(getPossibleMovesAlgo2(board));
-        if (moves.size() > 0) {
+        if (moves.size() > 0 && !returnAllMoves) {
             //System.out.println("Algo2 Move: " + moves.get(0).x + ", " + moves.get(0).y);
             //System.out.flush();
             return moves;
