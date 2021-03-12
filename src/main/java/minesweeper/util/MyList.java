@@ -1,19 +1,19 @@
 
 package minesweeper.util;
 
-public class MyList {
+public class MyList<E> {
     private int size;
-    private String[] entries;
+    private E[] entries;
     
     public MyList() {
         size = 0;
-        entries = new String[8];
+        entries = (E[])new Object[8];
     }
     
-    public void add(String e) {
+    public void add(E e) {
         if (size == entries.length) {
             
-            String[] help = new String[size * 2];
+            E[] help = (E[])new Object[size * 2];
             for (int i = 0; i < size; i++) {
                 help[i] = entries[i];
             }
@@ -26,7 +26,7 @@ public class MyList {
     
     public void addAll(MyList list) {       
         for (int i = 0; i < list.size(); i++) {
-            add(list.get(i));
+            add((E)list.get(i));
         }
     }
     
@@ -37,7 +37,7 @@ public class MyList {
         size--;
     }
     
-    public String get(int index) {
+    public E get(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }

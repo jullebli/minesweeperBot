@@ -8,10 +8,10 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 public class MyListTest {
-    private MyList list;
+    private MyList<String> list;
     
     public MyListTest() {
-        list = new MyList();
+        list = new MyList<>();
     }
     
     @Before
@@ -58,5 +58,12 @@ public class MyListTest {
         list.add("two");
         list.remove(0);
         assertEquals("two", list.get(0));
+    }
+    
+    @Test
+    public void IntegerTypeList() {
+        MyList<Integer> list3 = new MyList<>();
+        list3.add(1);
+        assertEquals(1, (int)list3.get(0));
     }
 }
