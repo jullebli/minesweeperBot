@@ -1,5 +1,6 @@
 package minesweeper.util;
 
+import java.util.HashSet;
 import java.util.Iterator;
 
 public class MySet<E> implements Iterable<E> {
@@ -18,6 +19,14 @@ public class MySet<E> implements Iterable<E> {
     public MySet() {
         this(16);
     }
+    
+    public MySet(HashSet<E> hSet) {
+        this(hSet.size() * 2);
+        
+        for (E e : hSet) {
+            add(e);
+        }
+    }
 
     public boolean add(E e) {
         reHash();
@@ -33,13 +42,12 @@ public class MySet<E> implements Iterable<E> {
         }
     }
 
-    /*
-    public void addAll(E[] e) {
-        for (int i = 0; i < e.length; i++) {
-            add(e[i]);
+    public void addAll(MySet<E> eSet) {
+        for (E e : eSet) {
+            add(e);
         }
     }
-     */
+
     public boolean remove(E e) {
         int index = indexOf(e);
         if (entries[index] == null) {

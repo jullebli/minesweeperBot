@@ -1,11 +1,8 @@
 package minesweeper.bot;
 
-import java.util.HashSet;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Set;
 import minesweeper.util.MyList;
 import minesweeper.model.Board;
 import minesweeper.model.GameStats;
@@ -14,16 +11,17 @@ import minesweeper.model.MoveType;
 import minesweeper.model.Highlight;
 import minesweeper.model.Pair;
 import minesweeper.model.Square;
+import minesweeper.util.MySet;
 
 public class SecondBot implements Bot {
 
     private Random rng = new Random();
     private GameStats gameStats;
     private boolean firstMove = true;
-    private Set<Square> setS = new LinkedHashSet<>();
-    private Set<Square> setQ = new LinkedHashSet<>();
-    private Set<Square> marked = new HashSet<>();
-    private Set<Square> opened = new HashSet<>();
+    private MySet<Square> setS = new MySet();
+    private MySet<Square> setQ = new MySet<>();
+    private MySet<Square> marked = new MySet<>();
+    private MySet<Square> opened = new MySet<>();
     private MyList<Square> flagsToDraw = new MyList<>();
     private Square prev; //most recently opened square
 
@@ -128,13 +126,12 @@ public class SecondBot implements Bot {
      * @return List of moves for current board.
      */
     public MyList<Move> getPossibleMovesAsMyList(Board board) {
-        //This does not work yet
-        System.out.println("Help(bot) was clicked");
+        //System.out.println("Help(bot) was clicked");
 
-        setS = new LinkedHashSet<>();
-        setQ = new LinkedHashSet<>();
-        marked = new HashSet<>();
-        opened = new HashSet<>();
+        setS = new MySet<>();
+        setQ = new MySet<>();
+        marked = new MySet<>();
+        opened = new MySet<>();
 
         for (int y = 0; y < board.height; y++) {
             for (int x = 0; x < board.width; x++) {
@@ -185,7 +182,7 @@ public class SecondBot implements Bot {
         for (Square square : setS) {
             moves.add(new Move(square.getX(), square.getY(), Highlight.GREEN));
         }
-        System.out.println("Size of possible moves list = " + moves.size());
+        //System.out.println("Size of possible moves list = " + moves.size());
         for (Square square : marked) {
             if (!square.isFlagged()) {
                 moves.add(new Move(square.getX(), square.getY(), Highlight.RED));
@@ -235,7 +232,7 @@ public class SecondBot implements Bot {
      * @return if square is an AMN case.
      */
     private boolean isAMN(Square square, Board board) {
-        Set<Square> markedNeighbours = getMarkedNeighbours(square, board);
+       MySet<Square> markedNeighbours = getMarkedNeighbours(square, board);
         //System.out.println("AMN:markedNeighbours = " + markedNeighbours.size());
         return square.surroundingMines() - markedNeighbours.size()
                 == getUnmarkedNeighbours(square, board).size();
@@ -248,8 +245,8 @@ public class SecondBot implements Bot {
      * @param board the current board state
      * @return set containing the square's unopened unmarked neighbours
      */
-    private Set<Square> getUnmarkedNeighbours(Square square, Board board) {
-        Set<Square> neighbours = new LinkedHashSet<>();
+    private MySet<Square> getUnmarkedNeighbours(Square square, Board board) {
+       MySet<Square> neighbours = new MySet<>();
 
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
@@ -276,8 +273,8 @@ public class SecondBot implements Bot {
      * @param board the current board state
      * @return set containing the square's marked neighbours
      */
-    private Set<Square> getMarkedNeighbours(Square square, Board board) {
-        Set<Square> neighbours = new LinkedHashSet<>();
+    private MySet<Square> getMarkedNeighbours(Square square, Board board) {
+       MySet<Square> neighbours = new MySet<>();
 
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
@@ -327,7 +324,7 @@ public class SecondBot implements Bot {
         Boolean unOpenedSquare = false;
 
         // board.getOpenSquares allows access to already opened squares
-        HashSet<Square> opened = board.getOpenSquares();
+        MySet<Square> opened = new MySet(board.getOpenSquares());
         int x;
         int y;
 
@@ -360,7 +357,7 @@ public class SecondBot implements Bot {
      * @param s Square variable
      * @return Square as String
      */
-    private String squareSetToString(Set<Square> s) {
+    private String squareSetToString(MySet<Square> s) {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
 

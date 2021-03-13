@@ -46,7 +46,6 @@ public class MySetTest {
         assertFalse(set.contains("three"));
     }
 
-    /*
     @Test
     public void addAllAddsManyToSize() {
         MySet set2 = new MySet();
@@ -57,7 +56,7 @@ public class MySetTest {
         set.addAll(set2);
         assertEquals(4, set.size());
     }
-     */
+
     @Test
     public void removeDecrementsSizeByOne() {
         set.remove("two");
@@ -82,15 +81,40 @@ public class MySetTest {
         set.remove("one");
         assertFalse(set.isEmpty());
     }
-
-    /*
+    
     @Test
-    public void IntegerTypeSet() {
-        MySet<Integer> set3 = new MySet<>();
-        set3.add(1);
-        assertEquals(1, (int)set3.get(0));
+    public void fromHashSetToMySet() {
+        HashSet<Integer> hSet = new HashSet<>();
+        hSet.add(1);
+        hSet.add(2);
+        hSet.add(3);
+        
+        MySet<Integer> mSet = new MySet(hSet);
+        assertEquals(3, mSet.size());
     }
-     */
+    
+    @Test
+    public void fromHashSetToMySet2() {
+        HashSet hSet = new HashSet();
+        hSet.add(1);
+        hSet.add(2);
+        hSet.add(3);
+        
+        MySet<Integer> mSet = new MySet(hSet);
+        assertTrue(mSet.contains(2));
+    }
+    
+    @Test
+    public void fromHashSetToMySet3() {
+        HashSet<Integer> hSet = new HashSet();
+        hSet.add(1);
+        hSet.add(2);
+        hSet.add(3);
+        
+        MySet<Integer> mSet = new MySet(hSet);
+        assertFalse(mSet.contains(5));
+    }
+
     @Test
     public void iteratorHasNext() {
         Iterator it = set.iterator();
