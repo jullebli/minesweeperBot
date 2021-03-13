@@ -1,15 +1,15 @@
 package minesweeper.util;
 
-public class MySet {
+public class MySet<E> {
 
     private int size;
-    private String[] entries;
+    private Object[] entries;
     private String tombstone;
     private int entriesUsed;
 
     public MySet(int capacity) {
         this.size = 0;
-        this.entries = new String[capacity];
+        this.entries = new Object[capacity];
         this.tombstone = "tombstone";
         this.entriesUsed = 0;
     }
@@ -18,7 +18,7 @@ public class MySet {
         this(16);
     }
 
-    public boolean add(String e) {
+    public boolean add(E e) {
         if (entriesUsed > entries.length * 0.75) {
             reHash();
         }
@@ -34,14 +34,14 @@ public class MySet {
         }
     }
 /*
-    public void addAll(String[] e) {
+    public void addAll(E[] e) {
         for (int i = 0; i < e.length; i++) {
             add(e[i]);
         }
     }
 */
 
-    public boolean remove(String e) {
+    public boolean remove(E e) {
         int index = indexOf(e);
         if (entries[index] == null) {
             return false;
@@ -52,12 +52,12 @@ public class MySet {
         }
     }
 
-    public boolean contains(String e) {
+    public boolean contains(E e) {
         int index = indexOf(e);
         return entries[index] != null;
     }
 
-    private int indexOf(String e) {
+    private int indexOf(E e) {
         int index = e.hashCode() % entries.length;
         int firstTombstoneIndex = -1;
 
@@ -90,14 +90,14 @@ public class MySet {
     }
 
     public void reHash() {
-        String[] oldEntries = entries;
+        Object[] oldEntries = entries;
         size = 0; //add will calculate again
         entriesUsed = 0;
-        entries = new String[oldEntries.length * 2];
+        entries = new Object[oldEntries.length * 2];
 
         for (int i = 0; i < oldEntries.length; i++) {
             if (oldEntries[i] != null && oldEntries[i] != tombstone) {
-                add(oldEntries[i]);
+                add((E)oldEntries[i]);
             }
         }
     }

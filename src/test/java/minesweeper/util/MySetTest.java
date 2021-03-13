@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class MySetTest {
-    private MySet set = new MySet(3);
+    private MySet<String> set = new MySet(3);
     
     @Before
     public void setUp() {
