@@ -1,9 +1,9 @@
 package minesweeper.bot;
 
-import java.util.HashSet;
 import java.util.Random;
 import java.util.ArrayList; //getPossibleMoves needs to return an ArrayList
 import minesweeper.util.MyList;
+import minesweeper.util.MySet;
 import minesweeper.model.Board;
 import minesweeper.model.GameStats;
 import minesweeper.model.Move;
@@ -103,14 +103,14 @@ public class FirstBot implements Bot {
      */
     private MyList<Move> getPossibleMovesAlgo1(Board board) {
         MyList<Move> movesToMake = new MyList<>();
-        HashSet<Square> opened = board.getOpenSquares();
+        MySet<Square> opened = new MySet(board.getOpenSquares());
 
         for (Square square : opened) {
             int surroundingMines = square.surroundingMines();
             if (surroundingMines == 0) {
                 continue;
             }
-            HashSet<Square> surroundingUnopened = new HashSet<>();
+            MySet<Square> surroundingUnopened = new MySet<>();
 
             for (int xInc = -1; xInc <= 1; xInc++) {
                 for (int yInc = -1; yInc <= 1; yInc++) {
@@ -148,12 +148,12 @@ public class FirstBot implements Bot {
      */
     private MyList<Move> getPossibleMovesAlgo2(Board board) {
         MyList<Move> movesToMake = new MyList<>();
-        HashSet<Square> opened = board.getOpenSquares();
+       MySet<Square> opened = new MySet(board.getOpenSquares());
 
         for (Square square : opened) {
             int surroundingMines = square.surroundingMines();
             int surroundingFlags = 0;
-            HashSet<Square> surroundingUnopenedUnFlagged = new HashSet<>();
+           MySet<Square> surroundingUnopenedUnFlagged = new MySet<>();
 
             for (int xInc = -1; xInc <= 1; xInc++) {
                 for (int yInc = -1; yInc <= 1; yInc++) {
@@ -203,7 +203,7 @@ public class FirstBot implements Bot {
         Boolean unOpenedSquare = false;
 
         // board.getOpenSquares allows access to already opened squares
-        HashSet<Square> opened = board.getOpenSquares();
+       MySet<Square> opened = new MySet(board.getOpenSquares());
         int x;
         int y;
 
