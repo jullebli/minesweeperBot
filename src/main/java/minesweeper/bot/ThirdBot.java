@@ -1,11 +1,9 @@
 package minesweeper.bot;
 
-import java.util.HashSet;
 import java.util.Random;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList; //getPossibleMoves needs to return an ArrayList
 import minesweeper.util.MyList;
+import minesweeper.util.MySet;
 import minesweeper.model.Board;
 import minesweeper.model.GameStats;
 import minesweeper.model.Move;
@@ -14,14 +12,15 @@ import minesweeper.model.Highlight;
 import minesweeper.model.Pair;
 import minesweeper.model.Square;
 
+
 public class ThirdBot implements Bot {
 
     private Random rng = new Random(1);
     private GameStats gameStats;
     private boolean firstMove = true;
-    private Set<Square> setS = new LinkedHashSet<>();
-    private Set<Square> marked = new HashSet<>();
-    private Set<Square> opened = new HashSet<>();
+    private MySet<Square> setS = new MySet<>();
+    private MySet<Square> marked = new MySet<>();
+    private MySet<Square> opened = new MySet<>();
     private MyList<Square> flagsToDraw = new MyList<>();
     private Square prev; //most recently opened square
     private boolean prevOpenedFirstTime = false;
@@ -113,9 +112,9 @@ public class ThirdBot implements Bot {
 
 //        System.out.println("Help(bot) was clicked");
 
-        setS = new LinkedHashSet<>();
-        marked = new HashSet<>();
-        opened = new HashSet<>();
+        setS = new MySet<>();
+        marked = new MySet<>();
+        opened = new MySet<>();
 
         for (int y = 0; y < board.height; y++) {
             for (int x = 0; x < board.width; x++) {
@@ -192,7 +191,7 @@ public class ThirdBot implements Bot {
      */
     private boolean isAMN(Square square, Board board) {
         boolean debug = square.getX() == 0 && square.getY() == 6;
-        Set<Square> markedNeighbours = getMarkedNeighbours(square, board);
+       MySet<Square> markedNeighbours = getMarkedNeighbours(square, board);
         //System.out.println("AMN:markedNeighbours = " + markedNeighbours.size());
         if (debug) {
 //            System.out.println("markedNeighbours = " + squareSetToString(markedNeighbours) + " surroundingMines = " + square.surroundingMines() + " unmarkedNeighbours = "
@@ -209,8 +208,8 @@ public class ThirdBot implements Bot {
      * @param board the current board state
      * @return set containing the square's unopened unmarked neighbours
      */
-    private Set<Square> getUnmarkedNeighbours(Square square, Board board) {
-        Set<Square> neighbours = new LinkedHashSet<>();
+    private MySet<Square> getUnmarkedNeighbours(Square square, Board board) {
+       MySet<Square> neighbours = new MySet<>();
 
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
@@ -237,8 +236,8 @@ public class ThirdBot implements Bot {
      * @param board the current board state
      * @return set containing the square's marked neighbours
      */
-    private Set<Square> getMarkedNeighbours(Square square, Board board) {
-        Set<Square> neighbours = new LinkedHashSet<>();
+    private MySet<Square> getMarkedNeighbours(Square square, Board board) {
+       MySet<Square> neighbours = new MySet<>();
 
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
@@ -258,8 +257,8 @@ public class ThirdBot implements Bot {
         return neighbours;
     }
 
-    private Set<Square> getOpenedNeighbours(Square square, Board board) {
-        Set<Square> neighbours = new LinkedHashSet<>();
+    private MySet<Square> getOpenedNeighbours(Square square, Board board) {
+       MySet<Square> neighbours = new MySet<>();
 
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
@@ -309,7 +308,7 @@ public class ThirdBot implements Bot {
         Boolean unOpenedSquare = false;
 
         // board.getOpenSquares allows access to already opened squares
-        HashSet<Square> opened = board.getOpenSquares();
+        MySet<Square> opened = new MySet(board.getOpenSquares());
         int x;
         int y;
 
@@ -342,7 +341,7 @@ public class ThirdBot implements Bot {
      * @param s Square variable
      * @return Square as String
      */
-    private String squareSetToString(Set<Square> s) {
+    private String squareSetToString(MySet<Square> s) {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
 

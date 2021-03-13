@@ -1,6 +1,6 @@
 package minesweeper.util;
 
-import java.util.HashSet;
+import java.util.HashSet; //needed to convert HashSet to MySet
 import java.util.Iterator;
 
 public class MySet<E> implements Iterable<E> {
@@ -21,7 +21,7 @@ public class MySet<E> implements Iterable<E> {
     }
     
     public MySet(HashSet<E> hSet) {
-        this(hSet.size() * 2);
+        this(hSet.size() != 0 ? hSet.size() * 2 : 6);
         
         for (E e : hSet) {
             add(e);
