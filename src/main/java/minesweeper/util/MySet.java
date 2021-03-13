@@ -1,16 +1,17 @@
 package minesweeper.util;
 
-public class MySet<E> {
+import java.util.Iterator;
+
+public class MySet<E> implements Iterable<E> {
 
     private int size;
     private Object[] entries;
-    private String tombstone;
+    public final static String tombstone = "tombstone";
     private int entriesUsed;
 
     public MySet(int capacity) {
         this.size = 0;
         this.entries = new Object[capacity];
-        this.tombstone = "tombstone";
         this.entriesUsed = 0;
     }
 
@@ -19,9 +20,7 @@ public class MySet<E> {
     }
 
     public boolean add(E e) {
-        if (entriesUsed > entries.length * 0.75) {
-            reHash();
-        }
+        reHash();
 
         int index = indexOf(e);
         if (entries[index] == null) {
@@ -33,14 +32,14 @@ public class MySet<E> {
             return false;
         }
     }
-/*
+
+    /*
     public void addAll(E[] e) {
         for (int i = 0; i < e.length; i++) {
             add(e[i]);
         }
     }
-*/
-
+     */
     public boolean remove(E e) {
         int index = indexOf(e);
         if (entries[index] == null) {
@@ -59,23 +58,13 @@ public class MySet<E> {
 
     private int indexOf(E e) {
         int index = e.hashCode() % entries.length;
-        int firstTombstoneIndex = -1;
 
         while (true) {
             if (entries[index] == null) {
                 return index;
             } else if (entries[index].equals(e)) {
-                if (firstTombstoneIndex != -1) {
-                    entries[firstTombstoneIndex] = e;
-                    entries[index] = tombstone;
-                    return firstTombstoneIndex;
-                } else {
-                    return index;
-                }
+                return index;
             } else {
-                if (entries[index] == tombstone && firstTombstoneIndex == -1) {
-                    firstTombstoneIndex = index;
-                }
                 index = (index + 1) % entries.length;
             }
         }
@@ -90,15 +79,44 @@ public class MySet<E> {
     }
 
     public void reHash() {
-        Object[] oldEntries = entries;
-        size = 0; //add will calculate again
-        entriesUsed = 0;
-        entries = new Object[oldEntries.length * 2];
+        if (entriesUsed > entries.length * 0.75) {
+            
+            Object[] oldEntries = entries;
+            int newLength = oldEntries.length * 2;
+            
+            if (size < oldEntries.length * 0.5) {
+                //just removing a lot of tombstones, no need of more space
+                newLength = oldEntries.length;
+            }
+            size = 0; //add will calculate again
+            entriesUsed = 0;            
+            entries = new Object[newLength];
 
-        for (int i = 0; i < oldEntries.length; i++) {
-            if (oldEntries[i] != null && oldEntries[i] != tombstone) {
-                add((E)oldEntries[i]);
+            for (int i = 0; i < oldEntries.length; i++) {
+                if (oldEntries[i] != null && oldEntries[i] != tombstone) {
+                    add((E) oldEntries[i]);
+                }
             }
         }
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return new MySetIterator(entries, this);
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder("(");
+
+        for (int i = 0; i < entries.length; i++) {
+            if (i != 0) {
+                sb.append("|");
+            }
+            sb.append(entries[i] != null ? entries[i].toString() : "null");
+        }
+
+        sb.append("," + size + ", " + entriesUsed + ")");
+
+        return sb.toString();
     }
 }
