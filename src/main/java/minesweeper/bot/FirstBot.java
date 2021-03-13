@@ -148,12 +148,12 @@ public class FirstBot implements Bot {
      */
     private MyList<Move> getPossibleMovesAlgo2(Board board) {
         MyList<Move> movesToMake = new MyList<>();
-       MySet<Square> opened = new MySet(board.getOpenSquares());
+        MySet<Square> opened = new MySet(board.getOpenSquares());
 
         for (Square square : opened) {
             int surroundingMines = square.surroundingMines();
             int surroundingFlags = 0;
-           MySet<Square> surroundingUnopenedUnFlagged = new MySet<>();
+            MySet<Square> surroundingUnopenedUnFlagged = new MySet<>();
 
             for (int xInc = -1; xInc <= 1; xInc++) {
                 for (int yInc = -1; yInc <= 1; yInc++) {
@@ -203,7 +203,7 @@ public class FirstBot implements Bot {
         Boolean unOpenedSquare = false;
 
         // board.getOpenSquares allows access to already opened squares
-       MySet<Square> opened = new MySet(board.getOpenSquares());
+        MySet<Square> opened = new MySet(board.getOpenSquares());
         int x;
         int y;
 

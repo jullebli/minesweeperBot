@@ -1,7 +1,7 @@
 package minesweeper.bot;
 
 import java.util.Random;
-import java.util.ArrayList;
+import java.util.ArrayList; //getPossibleMoves needs to return an ArrayList
 import java.util.Iterator;
 import minesweeper.util.MyList;
 import minesweeper.model.Board;
@@ -232,7 +232,7 @@ public class SecondBot implements Bot {
      * @return if square is an AMN case.
      */
     private boolean isAMN(Square square, Board board) {
-       MySet<Square> markedNeighbours = getMarkedNeighbours(square, board);
+        MySet<Square> markedNeighbours = getMarkedNeighbours(square, board);
         //System.out.println("AMN:markedNeighbours = " + markedNeighbours.size());
         return square.surroundingMines() - markedNeighbours.size()
                 == getUnmarkedNeighbours(square, board).size();
@@ -246,7 +246,7 @@ public class SecondBot implements Bot {
      * @return set containing the square's unopened unmarked neighbours
      */
     private MySet<Square> getUnmarkedNeighbours(Square square, Board board) {
-       MySet<Square> neighbours = new MySet<>();
+        MySet<Square> neighbours = new MySet<>();
 
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
@@ -274,7 +274,7 @@ public class SecondBot implements Bot {
      * @return set containing the square's marked neighbours
      */
     private MySet<Square> getMarkedNeighbours(Square square, Board board) {
-       MySet<Square> neighbours = new MySet<>();
+        MySet<Square> neighbours = new MySet<>();
 
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {

@@ -191,11 +191,12 @@ public class ThirdBot implements Bot {
      */
     private boolean isAMN(Square square, Board board) {
         boolean debug = square.getX() == 0 && square.getY() == 6;
-       MySet<Square> markedNeighbours = getMarkedNeighbours(square, board);
+        MySet<Square> markedNeighbours = getMarkedNeighbours(square, board);
         //System.out.println("AMN:markedNeighbours = " + markedNeighbours.size());
         if (debug) {
-//            System.out.println("markedNeighbours = " + squareSetToString(markedNeighbours) + " surroundingMines = " + square.surroundingMines() + " unmarkedNeighbours = "
-//                    + squareSetToString(getUnmarkedNeighbours(square, board)));
+//      System.out.println("markedNeighbours = " + squareSetToString(markedNeighbours) 
+//      + " surroundingMines = " + square.surroundingMines() + " unmarkedNeighbours = "
+//      + squareSetToString(getUnmarkedNeighbours(square, board)));
         }
         return square.surroundingMines() - markedNeighbours.size()
                 == getUnmarkedNeighbours(square, board).size();
@@ -209,7 +210,7 @@ public class ThirdBot implements Bot {
      * @return set containing the square's unopened unmarked neighbours
      */
     private MySet<Square> getUnmarkedNeighbours(Square square, Board board) {
-       MySet<Square> neighbours = new MySet<>();
+        MySet<Square> neighbours = new MySet<>();
 
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
@@ -237,7 +238,7 @@ public class ThirdBot implements Bot {
      * @return set containing the square's marked neighbours
      */
     private MySet<Square> getMarkedNeighbours(Square square, Board board) {
-       MySet<Square> neighbours = new MySet<>();
+        MySet<Square> neighbours = new MySet<>();
 
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
@@ -258,7 +259,7 @@ public class ThirdBot implements Bot {
     }
 
     private MySet<Square> getOpenedNeighbours(Square square, Board board) {
-       MySet<Square> neighbours = new MySet<>();
+        MySet<Square> neighbours = new MySet<>();
 
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
