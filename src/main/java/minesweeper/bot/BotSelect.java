@@ -11,7 +11,10 @@ public class BotSelect {
      * @return An object implementing the Bot interface
      */
     public static Bot getBot() {
-        // CHANGE THIS LINE TO USE YOUR OWN BOT
-        return new SecondBot();
+        /*CHANGE THIS METHOD'S CONTENTS ACCORDING TO WHICH BOT IS WANTED
+        CHECK UserGuide.md FOR INSTRUCTIONS */
+        //return new SinglePointBot();
+        //return new NaiveSinglePointBot();
+        return new DoubleSetSinglePointBot();
     }
 }
