@@ -1,10 +1,8 @@
 # Minesweeper bot
 
-A minesweeper solver/helper made in the course DATA STRUCTURES PROJECT (4 CR). The implementation code of the minesweeper game has not been made by me. It was offered as a base to help develope the solver/helper and has been made by other students on another course. My work/code consists of the bot imlementations: FirstBot and SecondBot and their tests.
+A minesweeper solver/helper made in the course DATA STRUCTURES PROJECT (4 CR). The implementation code of the minesweeper game has not been made by me. It was offered as a base to help develope the solver/helper and has been made by other students on another course (link to the git repository [link to the git repository of the base material](https://github.com/TiraLabra/minesweeper.git). My work/code consists of the bot imlementations: SinglePointBot, DoubleSetSinglePointBot and NaiveSinglePointBot and their tests. Also classes in the minesweeper.util package (MyList, MySet and MySetIterator) and their tests are made by me.
 
-I recommend copying the git repository and then running the program with command:
-
-./gradlew jar && java -cp build/libs/minesweeper.jar:/usr/share/java/javafx-base.jar:/usr/share/java/javafx-controls.jar:/usr/share/java/javafx-graphics-11.jar minesweeper.AppLauncher 
+I recommend copying the git repository and then running the program from terminal or in Netbeans.
 
 ## Documentation
 
@@ -20,3 +18,33 @@ I recommend copying the git repository and then running the program with command
 - [Week 4 report](https://github.com/jullebli/minesweeperBot/blob/master/documentation/week4report.md)
 - [Week 5 report](https://github.com/jullebli/minesweeperBot/blob/master/documentation/week5report.md)
 - [Week 6 report](https://github.com/jullebli/minesweeperBot/blob/master/documentation/week6report.md)
+
+## Command line commands:
+
+### Run: 
+
+./gradlew run
+
+if you have problems with this command, try: ./gradlew jar && java -cp build/libs/minesweeper.jar:/usr/share/java/javafx-base.jar:/usr/share/java/javafx-controls.jar:/usr/share/java/javafx-graphics-11.jar minesweeper.AppLauncher
+
+### Test:
+
+./gradlew test
+
+### Jacoco report:
+
+./gradlew jacocoTestReport
+
+The report will be available at build/reports/jacoco/test/html/index.html
+
+### Checkstyle:
+
+./gradlew check
+
+The report will be available at build/reports/checkstyle/main.html
+
+### JavaDoc:
+
+./gradlew javadoc
+
+The Javadoc will be available at build/docs/javadoc/index.html
