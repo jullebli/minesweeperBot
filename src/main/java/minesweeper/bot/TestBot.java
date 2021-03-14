@@ -151,4 +151,5 @@ public class TestBot implements Bot {
         // This pair should point to an unopened square now
         return pair;
     } 
+
 }

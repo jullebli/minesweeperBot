@@ -10,7 +10,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-public class FirstBotTest {
+public class SinglePointBotTest {
     private Bot bot;
     private MinefieldGenerator generator;
     private Board board;
