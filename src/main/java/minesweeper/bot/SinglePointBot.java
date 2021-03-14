@@ -12,14 +12,19 @@ import minesweeper.model.Highlight;
 import minesweeper.model.Pair;
 import minesweeper.model.Square;
 
-public class FirstBot implements Bot {
+/**
+ * A bot that is similar to NaiveSinglePointBot, but this bot's code is not
+ * based on pseudocode by others.
+ *
+ */
+public class SinglePointBot implements Bot {
 
     private Random rng = new Random();
     private GameStats gameStats;
     private int movesMade = 0;
 
     /**
-     * Make a single decision based on the given Board state
+     * Make a single decision based on the given Board state.
      *
      * @param board The current board state
      * @return Move to be made onto the board
@@ -27,6 +32,7 @@ public class FirstBot implements Bot {
     @Override
     public Move makeMove(Board board) {
         if (movesMade++ == 0) {
+            //First move
             return new Move(MoveType.OPEN,
                     board.width / 2,
                     board.height / 2);
@@ -36,8 +42,9 @@ public class FirstBot implements Bot {
         if (!possibleMoves.isEmpty()) {
             return possibleMoves.get(0);
         }
-        // Find the coordinate of an unopened square
-        Pair<Integer> pair = findUnopenedSquare(board);
+
+        //open a random square if there are no possible moves
+        Pair<Integer> pair = findUnopenedUnflaggedRandomSquare(board);
         int x = (int) pair.first;
         int y = (int) pair.second;
 
@@ -48,16 +55,16 @@ public class FirstBot implements Bot {
     }
 
     /**
-     * Return multiple possible moves to make based on current board state.
+     * Return multiple possible moves to make based on the current board state.
      *
-     * @param board The current board state.
-     * @return List of moves for current board.
+     * @param board The current board state
+     * @return List of moves for current board
      */
     @Override
     public ArrayList<Move> getPossibleMoves(Board board) {
         MyList<Move> moves = getPossibleMovesAsMyList(board, true);
         MyList<Move> highlightMoves = new MyList();
-        
+
         for (int i = 0; i < moves.size(); i++) {
             Move move = moves.get(i);
             if (move.type == MoveType.OPEN) {
@@ -65,26 +72,28 @@ public class FirstBot implements Bot {
             } else if (move.type == MoveType.FLAG) {
                 highlightMoves.add(new Move(move.x, move.y, Highlight.RED));
             }
-            
+
         }
         return highlightMoves.toArrayList();
     }
 
     /**
-     * Return multiple possible moves to make based on current board state.
+     * Return multiple possible moves to make based on the current board state.
      *
-     * @param board The current board state.
-     * @return List of moves for current board.
+     * @param board The current board state
+     * @param returnAllMoves true if all possible moves are wanted, false if possible
+     * open moves are not wanted if there are possible flag moves
+     * @return List of moves for current board
      */
     private MyList<Move> getPossibleMovesAsMyList(Board board, boolean returnAllMoves) {
-        MyList<Move> moves = getPossibleMovesAlgo1(board);
+        MyList<Move> moves = getPossibleMovesUsingAMN(board);
         if (moves.size() > 0 && !returnAllMoves) {
             // System.out.println("Algo1 Move: " + moves.get(0).x + ", " + moves.get(0).y);
             // System.out.flush();
             return moves;
         }
 
-        moves.addAll(getPossibleMovesAlgo2(board));
+        moves.addAll(getPossibleMovesUsingAFN(board));
         if (moves.size() > 0 && !returnAllMoves) {
             //System.out.println("Algo2 Move: " + moves.get(0).x + ", " + moves.get(0).y);
             //System.out.flush();
@@ -93,15 +102,20 @@ public class FirstBot implements Bot {
         return moves;
     }
 
-    //AMN
     /**
-     * Find out squares that are mines and those squares are flagged.
+     * Returns a list of flag moves for squares that have mines using AMN (All
+     * Mine/Mark Neighbours) principle. The case of AMN: if a square has the
+     * same amount of unopened neighbouring squares as its number of adjacent 
+     * mines then all unopened neighbouring squares contain mines.
      *
+     * @see "Becerra, David J. 2015. Algorithmic Approaches to
+     * PlayingMinesweeper. Bachelor's thesis, Harvard College. Link:
+     * <a href="http://nrs.harvard.edu/urn-3:HUL.InstRepos:14398552">"
      *
      * @param board The current board state
      * @return a list of flag moves
      */
-    private MyList<Move> getPossibleMovesAlgo1(Board board) {
+    private MyList<Move> getPossibleMovesUsingAMN(Board board) {
         MyList<Move> movesToMake = new MyList<>();
         MySet<Square> opened = new MySet(board.getOpenSquares());
 
@@ -134,19 +148,23 @@ public class FirstBot implements Bot {
                 }
             }
         }
-
         return movesToMake;
     }
 
-    //AFN
     /**
-     * Find out squares that don't have mines. They are safe to open and are
-     * unflagged.
+     * Returns a list of open moves for squares that don't have mines using AFN
+     * (All Free Neighbours) principle. The case of AFN: if a square has the
+     * same amount of marked/flagged neighbouring squares as its number of
+     * adjacent mines then all unmarked/unflagged neighbouring squares do not
+     * contain mines.
      *
-     * @param board The current board state.
-     * @return a list of squares that don't have a mine.
+     * @see "Becerra, David J. 2015. Algorithmic Approaches to
+     * PlayingMinesweeper. Bachelor's thesis, Harvard College. Link:
+     * <a href="http://nrs.harvard.edu/urn-3:HUL.InstRepos:14398552">"
+     * @param board The current board state
+     * @return a list of squares that don't have a mine
      */
-    private MyList<Move> getPossibleMovesAlgo2(Board board) {
+    private MyList<Move> getPossibleMovesUsingAFN(Board board) {
         MyList<Move> movesToMake = new MyList<>();
         MySet<Square> opened = new MySet(board.getOpenSquares());
 
@@ -173,9 +191,8 @@ public class FirstBot implements Bot {
             }
             if (surroundingMines == surroundingFlags) {
                 for (Square unopenedSquare : surroundingUnopenedUnFlagged) {
-                    // movesToMake.add(new Move(unopenedSquare.getX(), unopenedSquare.getY(), Highlight.RED));
-
-                    movesToMake.add(new Move(MoveType.OPEN, unopenedSquare.getX(), unopenedSquare.getY()));
+                    movesToMake.add(new Move(MoveType.OPEN,
+                            unopenedSquare.getX(), unopenedSquare.getY()));
                 }
             }
         }
@@ -185,7 +202,7 @@ public class FirstBot implements Bot {
 
     /**
      * Used to pass the bot the gameStats object, useful for tracking previous
-     * moves
+     * moves.
      */
     @Override
     public void setGameStats(GameStats gameStats) {
@@ -193,16 +210,15 @@ public class FirstBot implements Bot {
     }
 
     /**
-     * Find the (X, Y) coordinate pair of an unopened square from the current
-     * board
+     * Find the (X, Y) coordinate pair of an unopened unflagged square from the
+     * current board.
      *
      * @param board The current board state
      * @return An (X, Y) coordinate pair
      */
-    public Pair<Integer> findUnopenedSquare(Board board) {
+    public Pair<Integer> findUnopenedUnflaggedRandomSquare(Board board) {
         Boolean unOpenedSquare = false;
 
-        // board.getOpenSquares allows access to already opened squares
         MySet<Square> opened = new MySet(board.getOpenSquares());
         int x;
         int y;
@@ -218,8 +234,6 @@ public class FirstBot implements Bot {
                 pair = new Pair<Integer>(x, y);
             }
         }
-
-        // This pair should point to an unopened square now
         return pair;
     }
 }

@@ -200,14 +200,14 @@ public class DoubleSetSinglePointBot implements Bot {
     }
 
     /**
-     * Determine if an opened square fulfills the AFN terms. In the case of AFN
-     * (All Free Neighbours) the square has as many marked/flagged neighbours as
-     * it's mine count number. So all other neighbours except the marked/flagged
-     * ones are safe to open.
+     * Determine if a specified opened square fulfills the AFN terms. In the
+     * case of AFN (All Free Neighbours) the square has as many marked/flagged
+     * neighbours as its mine count number. So all other neighbours except the
+     * marked/flagged ones are safe to open.
      *
      * @param square the square which neighbours are examined
      * @param board The current board state
-     * @return true if square is an AFN case
+     * @return true if the specified square is an AFN case
      */
     private boolean isAFN(Square square, Board board) {
         int flaggedNeighbours = 0;
@@ -230,13 +230,14 @@ public class DoubleSetSinglePointBot implements Bot {
     }
 
     /**
-     * Determine if an opened square fulfills the AMN terms. In the case of AMN
-     * (All mine/marked neighbours) the square has as many unopened neighbours
-     * as it's mine count number. So all of it's neighbours are mines.
+     * Determine if a specified opened square fulfills the AMN terms. In the
+     * case of AMN (All mine/marked neighbours) the square has as many unopened
+     * neighbours as it's mine count number. So all of it's unopened neighbours
+     * are mines.
      *
      * @param square the square which neighbours are examined
      * @param board the current board state
-     * @return true if square is an AMN case
+     * @return true if the specified square is an AMN case
      */
     private boolean isAMN(Square square, Board board) {
         MySet<Square> markedNeighbours = getMarkedNeighbours(square, board);
@@ -304,7 +305,8 @@ public class DoubleSetSinglePointBot implements Bot {
     }
 
     /**
-     * Returns true if the specified square is in the marked set.
+     * Returns true if the specified square is in the marked set. A square can
+     * be in the marked set even if it is not (yet) flagged.
      *
      * @param square a Square variable
      * @return true if the specified square is in the marked set
@@ -323,8 +325,8 @@ public class DoubleSetSinglePointBot implements Bot {
     }
 
     /**
-     * Find the (X, Y) coordinate pair of a random unopened unmarked square
-     * from the current board
+     * Find the (X, Y) coordinate pair of a random unopened unmarked square from
+     * the current board
      *
      * @param board The current board state
      * @return An (X, Y) coordinate pair
@@ -384,6 +386,12 @@ public class DoubleSetSinglePointBot implements Bot {
         return sb.toString();
     }
 
+    /**
+     * Returns an open move to a specified square.
+     * 
+     * @param square square for which the open move is made
+     * @return open move to the specified square
+     */
     private Move openMove(Square square) {
         opened.add(square);
         return new Move(MoveType.OPEN, square.getX(), square.getY());
