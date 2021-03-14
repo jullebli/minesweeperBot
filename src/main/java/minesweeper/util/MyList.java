@@ -93,7 +93,7 @@ public class MyList<E> {
      *
      * @return an ArrayList containing the elements on this list.
      */
-    public ArrayList toArrayList() {
+    public ArrayList<E> toArrayList() {
         ArrayList<E> arrayList = new ArrayList<>(size);
 
         for (int i = 0; i < size; i++) {
