@@ -210,7 +210,7 @@ public class DoubleSetSinglePointBot implements Bot {
      * @return true if the specified square is an AFN case
      */
     private boolean isAFN(Square square, Board board) {
-        int flaggedNeighbours = 0;
+        int markedNeighbours = 0;
 
         for (int xInc = -1; xInc <= 1; xInc++) {
             for (int yInc = -1; yInc <= 1; yInc++) {
@@ -220,13 +220,13 @@ public class DoubleSetSinglePointBot implements Bot {
                 if (board.withinBoard(square.getX() + xInc, square.getY() + yInc)) {
                     Square s = board.getSquareAt(square.getX() + xInc, square.getY() + yInc);
                     if (!s.isOpened() && isMarked(s)) {
-                        flaggedNeighbours++;
+                        markedNeighbours++;
                     }
                 }
             }
         }
         //System.out.println("isAFN(" + squareToString(square) + ") = " + flaggedNeighbours);
-        return square.surroundingMines() == flaggedNeighbours;
+        return square.surroundingMines() == markedNeighbours;
     }
 
     /**
