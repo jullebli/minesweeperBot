@@ -13,7 +13,15 @@ import minesweeper.model.Pair;
 import minesweeper.model.Square;
 import minesweeper.util.MySet;
 
-public class SecondBot implements Bot {
+/**
+ * A bot that is based on pseudocode by Becerra.
+ *
+ * @see "Becerra, David J. 2015. Algorithmic Approaches to PlayingMinesweeper.
+ * Bachelor's thesis, Harvard College. Link:
+ * <a href=http://nrs.harvard.edu/urn-3:HUL.InstRepos:14398552>Becerra's
+ * thesis</a>"
+ */
+public class DoubleSetSinglePointBot implements Bot {
 
     private Random rng = new Random();
     private GameStats gameStats;
@@ -26,10 +34,10 @@ public class SecondBot implements Bot {
     private Square prev; //most recently opened square
 
     /**
-     * Make a single decision based on the given Board state
+     * Make a single decision based on the given Board state.
      *
-     * @param board The current board state.
-     * @return Move to be made onto the board.
+     * @param board The current board state
+     * @return Move to be made onto the board
      */
     @Override
     public Move makeMove(Board board) {
@@ -97,7 +105,7 @@ public class SecondBot implements Bot {
             if (setS.isEmpty()) {
                 //Here should be the third algorithm CSP? Now just random square
                 //System.out.println("Picking random (S is empty)");
-                Pair<Integer> pair = findUnopenedSquare(board);
+                Pair<Integer> pair = findUnopenedUnmarkedRandomSquare(board);
                 int x = (int) pair.first;
                 int y = (int) pair.second;
 
@@ -107,23 +115,22 @@ public class SecondBot implements Bot {
     }
 
     /**
-     * Return multiple possible moves to make based on current board state.
+     * Return multiple possible moves to make based on the current board state.
      *
-     * @param board The current board state.
-     * @return List of moves for current board.
+     * @param board The current board state
+     * @return List of moves for current board
      */
     @Override
     public ArrayList<Move> getPossibleMoves(Board board) {
-        //This does not work yet
         ArrayList<Move> arrayList = getPossibleMovesAsMyList(board).toArrayList();
         return arrayList;
     }
 
     /**
-     * Return multiple possible moves to make based on current board state.
+     * Return multiple possible moves to make based on the current board state.
      *
-     * @param board The current board state.
-     * @return List of moves for current board.
+     * @param board The current board state
+     * @return List of moves for current board
      */
     public MyList<Move> getPossibleMovesAsMyList(Board board) {
         //System.out.println("Help(bot) was clicked");
@@ -193,13 +200,14 @@ public class SecondBot implements Bot {
     }
 
     /**
-     * Determine if an opened square fills in the AFN terms. In the case of AFN
-     * (All free neighbours) the square has as many flagged neighbours as it's
-     * number. So all other neighbours except the flagged ones are safe to open.
+     * Determine if an opened square fulfills the AFN terms. In the case of AFN
+     * (All Free Neighbours) the square has as many marked/flagged neighbours as
+     * it's mine count number. So all other neighbours except the marked/flagged
+     * ones are safe to open.
      *
-     * @param square the square which neighbours are examined.
-     * @param board The current board state.
-     * @return if square is an AFN case.
+     * @param square the square which neighbours are examined
+     * @param board The current board state
+     * @return true if square is an AFN case
      */
     private boolean isAFN(Square square, Board board) {
         int flaggedNeighbours = 0;
@@ -222,14 +230,13 @@ public class SecondBot implements Bot {
     }
 
     /**
-     * /**
-     * Determine if an opened square fills in the AMN terms. In the case of AMN
+     * Determine if an opened square fulfills the AMN terms. In the case of AMN
      * (All mine/marked neighbours) the square has as many unopened neighbours
-     * as it's number. So all of it's neighbours are mines.
+     * as it's mine count number. So all of it's neighbours are mines.
      *
-     * @param square the square which neighbours are examined.
-     * @param board the current board state.
-     * @return if square is an AMN case.
+     * @param square the square which neighbours are examined
+     * @param board the current board state
+     * @return true if square is an AMN case
      */
     private boolean isAMN(Square square, Board board) {
         MySet<Square> markedNeighbours = getMarkedNeighbours(square, board);
@@ -239,11 +246,13 @@ public class SecondBot implements Bot {
     }
 
     /**
-     * Get the square's all unopened unmarked neighbours as a set.
+     * Returns a set containing all unopened unmarked neighbours of a specified
+     * square.
      *
      * @param square the square which neighbours are examined
      * @param board the current board state
-     * @return set containing the square's unopened unmarked neighbours
+     * @return set containing all unopened unmarked neighbours of the specified
+     * square
      */
     private MySet<Square> getUnmarkedNeighbours(Square square, Board board) {
         MySet<Square> neighbours = new MySet<>();
@@ -267,11 +276,11 @@ public class SecondBot implements Bot {
     }
 
     /**
-     * Get the square's all marked neighbours as a set.
+     * Returns a set containing all marked neighbours of a specified square.
      *
      * @param square the square which neighbours are examined
      * @param board the current board state
-     * @return set containing the square's marked neighbours
+     * @return set containing all marked neighbours of the specified square
      */
     private MySet<Square> getMarkedNeighbours(Square square, Board board) {
         MySet<Square> neighbours = new MySet<>();
@@ -295,10 +304,10 @@ public class SecondBot implements Bot {
     }
 
     /**
-     * Find out if a square is in the marked set.
+     * Returns true if the specified square is in the marked set.
      *
      * @param square a Square variable
-     * @return if the square is in the marked set.
+     * @return true if the specified square is in the marked set
      */
     private boolean isMarked(Square square) {
         return marked.contains(square);
@@ -314,16 +323,15 @@ public class SecondBot implements Bot {
     }
 
     /**
-     * Find the (X, Y) coordinate pair of an random unopened square from the
-     * current board
+     * Find the (X, Y) coordinate pair of a random unopened unmarked square
+     * from the current board
      *
      * @param board The current board state
      * @return An (X, Y) coordinate pair
      */
-    public Pair<Integer> findUnopenedSquare(Board board) {
+    public Pair<Integer> findUnopenedUnmarkedRandomSquare(Board board) {
         Boolean unOpenedSquare = false;
 
-        // board.getOpenSquares allows access to already opened squares
         MySet<Square> opened = new MySet(board.getOpenSquares());
         int x;
         int y;
@@ -334,16 +342,21 @@ public class SecondBot implements Bot {
         while (!unOpenedSquare) {
             x = rng.nextInt(board.width);
             y = rng.nextInt(board.height);
+            // 
             if (!opened.contains(board.board[x][y]) && !isMarked(board.getSquareAt(x, y))) {
                 unOpenedSquare = true;
                 pair = new Pair<Integer>(x, y);
             }
         }
-
-        // This pair should point to an unopened square now
         return pair;
     }
 
+    /**
+     * Used only for testing/debugging. Converts Square to String
+     *
+     * @param s Square variable
+     * @return Square as String
+     */
     private String squareToString(Square square) {
         if (square == null) {
             return "null";
@@ -352,10 +365,10 @@ public class SecondBot implements Bot {
     }
 
     /**
-     * Used only for testing/debugging. Converts Square to String
+     * Used only for testing/debugging. Converts Square set to String
      *
-     * @param s Square variable
-     * @return Square as String
+     * @param s Square set variable
+     * @return Square set as String
      */
     private String squareSetToString(MySet<Square> s) {
         StringBuilder sb = new StringBuilder();
@@ -366,7 +379,6 @@ public class SecondBot implements Bot {
                 sb.append(", ");
             }
             sb.append(squareToString(square));
-
         }
         sb.append("}");
         return sb.toString();
@@ -376,5 +388,4 @@ public class SecondBot implements Bot {
         opened.add(square);
         return new Move(MoveType.OPEN, square.getX(), square.getY());
     }
-
 }
