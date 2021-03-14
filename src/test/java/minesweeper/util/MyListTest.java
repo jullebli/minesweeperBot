@@ -1,11 +1,10 @@
 
 package minesweeper.util;
 
-import minesweeper.util.MyList;
+import java.util.ArrayList; //to test toArrayList method
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.assertTrue;
 
 public class MyListTest {
     private MyList<String> list;
@@ -65,5 +64,12 @@ public class MyListTest {
         MyList<Integer> list3 = new MyList<>();
         list3.add(1);
         assertEquals(1, (int)list3.get(0));
+    }
+
+    @Test
+    public void toArrayListWorks() {
+        ArrayList<String> sArray = new ArrayList<>(1);
+        sArray.add("one");
+        assertEquals(sArray, list.toArrayList());
     }
 }
