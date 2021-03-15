@@ -33,6 +33,7 @@ public class NaiveSinglePointBotUsingLinkedHashSet implements Bot {
     private MyList<Square> flagsToDraw = new MyList<>();
     private Square prev; //most recently opened square
     private boolean prevOpenedFirstTime = false;
+    private boolean prevMoveWasRandom = false;
 
     /**
      * Make a single decision based on the given Board state.
@@ -42,6 +43,7 @@ public class NaiveSinglePointBotUsingLinkedHashSet implements Bot {
      */
     @Override
     public Move makeMove(Board board) {
+        prevMoveWasRandom = false;
         if (!flagsToDraw.isEmpty()) {
             Square s = flagsToDraw.get(0);
             flagsToDraw.remove(0);
@@ -89,6 +91,7 @@ public class NaiveSinglePointBotUsingLinkedHashSet implements Bot {
             int y = (int) pair.second;
 
             setS.add(board.getSquareAt(x, y));
+            prevMoveWasRandom = true;
         }
 
         prev = setS.iterator().next();
@@ -153,7 +156,6 @@ public class NaiveSinglePointBotUsingLinkedHashSet implements Bot {
                 moves.add(new Move(square.getX(), square.getY(), Highlight.RED));
             }
         }
-
         return moves;
     }
 
@@ -325,7 +327,6 @@ public class NaiveSinglePointBotUsingLinkedHashSet implements Bot {
 
         Pair<Integer> pair = new Pair<>(0, 0);
 
-        // Randomly generate X,Y coordinate pairs that are not opened
         while (!unOpenedSquare) {
             x = rng.nextInt(board.width);
             y = rng.nextInt(board.height);
@@ -334,8 +335,6 @@ public class NaiveSinglePointBotUsingLinkedHashSet implements Bot {
                 pair = new Pair<Integer>(x, y);
             }
         }
-
-        // This pair should point to an unopened square now
         return pair;
     }
 
@@ -365,6 +364,10 @@ public class NaiveSinglePointBotUsingLinkedHashSet implements Bot {
         }
         sb.append("}");
         return sb.toString();
+    }
+    
+    public boolean prevMoveWasRandom() {
+        return this.prevMoveWasRandom;
     }
 
     /**

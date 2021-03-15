@@ -22,6 +22,7 @@ public class SinglePointBot implements Bot {
     private Random rng = new Random();
     private GameStats gameStats;
     private int movesMade = 0;
+    private boolean prevMoveWasRandom = false;
 
     /**
      * Make a single decision based on the given Board state.
@@ -31,6 +32,7 @@ public class SinglePointBot implements Bot {
      */
     @Override
     public Move makeMove(Board board) {
+        prevMoveWasRandom = false;
         if (movesMade++ == 0) {
             //First move
             return new Move(MoveType.OPEN,
@@ -50,6 +52,7 @@ public class SinglePointBot implements Bot {
 
         //System.out.println("Random move: " + x + ", " + y);
         //System.out.flush();
+        prevMoveWasRandom = true;
         return new Move(MoveType.OPEN, x, y);
 
     }
@@ -72,7 +75,6 @@ public class SinglePointBot implements Bot {
             } else if (move.type == MoveType.FLAG) {
                 highlightMoves.add(new Move(move.x, move.y, Highlight.RED));
             }
-
         }
         return highlightMoves.toArrayList();
     }
@@ -196,8 +198,11 @@ public class SinglePointBot implements Bot {
                 }
             }
         }
-
         return movesToMake;
+    }
+    
+    public boolean prevMoveWasRandom() {
+        return this.prevMoveWasRandom;
     }
 
     /**
@@ -225,7 +230,6 @@ public class SinglePointBot implements Bot {
 
         Pair<Integer> pair = new Pair<>(0, 0);
 
-        // Randomly generate X,Y coordinate pairs that are not opened
         while (!unOpenedSquare) {
             x = rng.nextInt(board.width);
             y = rng.nextInt(board.height);

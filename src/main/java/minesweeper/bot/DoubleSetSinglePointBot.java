@@ -32,6 +32,7 @@ public class DoubleSetSinglePointBot implements Bot {
     private MySet<Square> opened = new MySet<>();
     private MyList<Square> flagsToDraw = new MyList<>();
     private Square prev; //most recently opened square
+    private boolean prevMoveWasRandom = false;
 
     /**
      * Make a single decision based on the given Board state.
@@ -41,6 +42,7 @@ public class DoubleSetSinglePointBot implements Bot {
      */
     @Override
     public Move makeMove(Board board) {
+        prevMoveWasRandom = false;
         if (!flagsToDraw.isEmpty()) {
             Square s = flagsToDraw.get(0);
             flagsToDraw.remove(0);
@@ -108,7 +110,8 @@ public class DoubleSetSinglePointBot implements Bot {
                 Pair<Integer> pair = findUnopenedUnmarkedRandomSquare(board);
                 int x = (int) pair.first;
                 int y = (int) pair.second;
-
+                
+                prevMoveWasRandom = true;
                 setS.add(board.getSquareAt(x, y));
             }
         }
@@ -384,6 +387,10 @@ public class DoubleSetSinglePointBot implements Bot {
         }
         sb.append("}");
         return sb.toString();
+    }
+    
+    public boolean prevMoveWasRandom() {
+        return this.prevMoveWasRandom;
     }
 
     /**
