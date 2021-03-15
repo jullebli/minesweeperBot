@@ -18,6 +18,7 @@ plugins {
     id 'checkstyle'
   
     id 'org.openjfx.javafxplugin' version '0.0.8'
+    
 }
 
 jacocoTestReport {
@@ -28,7 +29,7 @@ jacocoTestReport {
      
     afterEvaluate {
         classDirectories.setFrom(files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: [
+                    fileTree(dir: it, exclude: [
             'minesweeper/App*',
             'minesweeper/AppLauncher*',
             'minesweeper/StorageSingleton*',
@@ -39,8 +40,8 @@ jacocoTestReport {
             'minesweeper/bot/Bot*',
             'minesweeper/bot/BotExecutor*',
             'minesweeper/bot/TestBot*'
-              ])
-        }))
+                        ])
+                }))
     } 
 }
 
@@ -84,8 +85,8 @@ check.dependsOn jacocoTestReport
 build.dependsOn javadoc
 
 task headlessTest(type:JavaExec) {
-   classpath = sourceSets.main.runtimeClasspath
-   main = 'minesweeper.TestApp'
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'minesweeper.TestApp'
 }
 
 //javafx modules are missing
@@ -93,4 +94,9 @@ jar {
     manifest {
         attributes 'Main-Class': 'minesweeper.AppLauncher'
     }
+}
+
+task performanceTest(type:JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'minesweeper.BotPerformanceEvaluator'
 }
