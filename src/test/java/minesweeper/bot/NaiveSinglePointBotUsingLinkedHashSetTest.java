@@ -1,21 +1,22 @@
+
 package minesweeper.bot;
 
 import java.util.Random;
 import minesweeper.generator.MinefieldGenerator;
 import minesweeper.model.Board;
 import minesweeper.model.Move;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
-import static org.junit.Assert.*;
 import org.junit.Test;
 
-public class DoubleSetSinglePointBotTest {
-
-    private DoubleSetSinglePointBot bot;
+public class NaiveSinglePointBotUsingLinkedHashSetTest {
+    private NaiveSinglePointBotUsingLinkedHashSet bot;
     private Board board;
 
     @Before
     public void setUp() {
-        this.bot = new DoubleSetSinglePointBot();
+        this.bot = new NaiveSinglePointBotUsingLinkedHashSet();
     }
 
     public boolean playGame(Bot bot, Board board) {
