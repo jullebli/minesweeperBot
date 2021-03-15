@@ -3,6 +3,8 @@ package minesweeper.util;
 
 import java.util.ArrayList; //to test toArrayList method
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +21,7 @@ public class MyListTest {
     }
     
     @Test
-    public void getWorks() {
+    public void getReturnsRightString() {
         assertEquals("one", list.get(0));
     }
     
@@ -71,5 +73,26 @@ public class MyListTest {
         ArrayList<String> sArray = new ArrayList<>(1);
         sArray.add("one");
         assertEquals(sArray, list.toArrayList());
+    }
+    
+    @Test
+    public void isEmptyReturnsFalseWhenListNotEmpty() {
+        assertFalse(list.isEmpty());
+    }
+    
+    @Test
+    public void isEmptyReturnsTrueWhenListIsEmpty() {
+        list.remove(0);
+        assertTrue(list.isEmpty());
+    }
+    
+    @Test
+    public void moreThan8ElementsFitInTheList() {
+        String s = "something";
+        int a = 0;
+        for (int i = 0; i < 8; i++) {
+            list.add(s + a);
+        }
+        assertTrue(list.size() > 8);
     }
 }
