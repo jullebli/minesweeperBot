@@ -32,3 +32,7 @@ I think the major difference in my and Becerra's algorithms win rates is due to 
 |NaiveSinglePointBotUsingLinkedHashSet|Beginner|89.8%|0.21 ms|
 |NaiveSinglePointBotUsingLinkedHashSet|Intermediate|45.5%|0.51 ms|
 |NaiveSinglePointBotUsingLinkedHashSet|Expert|1.2%|0.5 ms|
+
+The test results in Becerra's thesis:
+
+<img src="https://github.com/jullebli/minesweeperBot/blob/master/documentation/BecerraResults.png" />
