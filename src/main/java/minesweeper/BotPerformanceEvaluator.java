@@ -1,5 +1,6 @@
 package minesweeper;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 import minesweeper.bot.Bot;
 import minesweeper.bot.SinglePointBot;
@@ -10,6 +11,7 @@ import minesweeper.model.Board;
 import minesweeper.model.GameResult;
 import minesweeper.model.Move;
 import java.util.ArrayList;
+import minesweeper.bot.NaiveSinglePointBotUsingLinkedHashSet;
 
 /**
  * Used for comparing results from using different bots all playing a specified
@@ -57,11 +59,15 @@ public class BotPerformanceEvaluator {
         botNames.add("SinglePointBot");
         botNames.add("DoubleSetSinglePointBot");
         botNames.add("NaiveSinglePointBot");
+        botNames.add("NaiveSinglePointBotUsingLinkedHashSet");
+        
+        System.out.println("|Bot|Difficulty|Win rate|Average game duration|");
+        System.out.println("|-----|------|------|------|");
 
         for (String botName : botNames) {
-            playManyGames(10, 10, 10, botName, 1000); //Beginner
-            playManyGames(16, 16, 40, botName, 1000); //Intermediate
-            playManyGames(16, 30, 99, botName, 1000); //Expert
+            playManyGames(10, 10, 10, botName, 1000, "Beginner");
+            playManyGames(16, 16, 40, botName, 1000, "Intermediate");
+            playManyGames(16, 30, 99, botName, 1000, "Expert");
         }
     }
 
@@ -76,7 +82,7 @@ public class BotPerformanceEvaluator {
      * @param times the amount of times minesweeper will be played
      */
     private void playManyGames(int width, int height, int mines, String botName,
-            int times) {
+            int times, String difficultyName) {
 
         int timesWon = 0;
         double timeSum = 0;
@@ -90,11 +96,27 @@ public class BotPerformanceEvaluator {
             }
             timeSum += result.getPlayTime();
         }
-
+        
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        
+        double winRate = (double) timesWon / times * 100.0;
+        String dfWinRate = df.format(winRate);
+        
+        double playTimeMs = timeSum / times * 1000;
+        String dfPlayTimeMs = df.format(playTimeMs);
+        
+        System.out.println(String.format("|%s|%s|%s%%|%s ms|", botName, difficultyName,
+                dfWinRate, dfPlayTimeMs));
+/*
         System.out.println("Bot: " + botName + ", success rate: "
-                + ((double) timesWon / times * 100.0) + "%, average duration: "
-                + (timeSum / times) + ", width: " + width + ", height: "
+                + dfWinRate + "%, average duration: "
+                + dfPlayTimeMs + " ms, width: " + width + ", height: "
                 + height + ", mines: " + mines);
+        
+        */
+        
+        
     }
 
     /**
@@ -112,6 +134,8 @@ public class BotPerformanceEvaluator {
             return new DoubleSetSinglePointBot();
         } else if (botName.equals("NaiveSinglePointBot")) {
             return new NaiveSinglePointBot();
+        } else if (botName.equals("NaiveSinglePointBotUsingLinkedHashSet")) {
+            return new NaiveSinglePointBotUsingLinkedHashSet();
         } else {
             throw new RuntimeException("Unknown botNumber");
         }
