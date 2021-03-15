@@ -20,29 +20,33 @@ AMN(All mine/mark neighbours) means a situation where an opened square has the s
 
 SinglePointBot was my first implementation of a minesweeper solving bot. This bot's creation was started before I knew I would be implementing the pseudocode algorithms which the other bots are based on. So it is quite different from the other two even though it uses the same AFN and AMN algorithms.
 
-SinglePointBot makes the first move in a predestined square. This could be quite easily modified for testing purposes. This bot uses in Bot Game the same method that is called when the help bot function is used, getPossibleMoves. The second parameter of getPossibleMoves is a boolean which determines if it should return all possible moves. Help bot is designed to return all possible moves to help the player as much as it can. makeMove does not want all possible moves since it can only return one move to BotExecutor. If all moves are not wanted then getPossibleMoves returns only flag moves found by AMN. If there are no flag moves then the method tries to find open moves with AFN.
+SinglePointBot makes the first move in a predestined square. This could be quite easily modified for testing purposes. This bot uses in Bot Game the same method that is called when the help bot function is used, getPossibleMoves. The second parameter of getPossibleMovesAsMyList is a boolean which determines if it should return all possible moves. Help bot is designed to return all possible moves to help the player as much as it can. makeMove does not want all possible moves since it can only return one move to BotExecutor. If all moves are not wanted then getPossibleMoves returns only flag moves found by AMN. If there are no flag moves then the method tries to find open moves with AFN.
 
-This bot does not save information about the squares between makeMove calls. It uses the information gained by Board and Square classes. When makeMove is called it calls getPossibleMoves which returns a list. MakeMove returns the first move on this list. If the list is empty it finds an unopened unflagged random square to return.
-
-### NaiveSinglePointBot
-
-NaiveSinglePointBot is based on Becerra's pseudocode. 
-
-
-This bot's performance triples in the ordering problem that is also mentioned in Becerra's text.
-
+This bot does not save information about the squares between makeMove calls. It uses the information gained by Board and Square classes. When makeMove is called it calls getPossibleMovesAsMyList which returns a list. MakeMove returns the first move on this list. If the list is empty it finds an unopened unflagged random square to return.
 
 ### DoubleSetSinglePointBot
 
-DoubleSetSinglePointBot uses two sets to store information about the squares that should be handled: set S for squares that are safe to open and set Q for squares that should be examined again until they are a case of AMN or AFN. Bot Game and help bot functions are separated. There is a major difference in their execution. When using help bot the information gained when it was last called is zeroed. Then the board is examined fully and the current information is stored in the sets.
+DoubleSetSinglePointBot uses two sets to store information about the squares that should be handled: set S for squares that are safe to open and set Q for squares that should be examined again until they are a case of AMN or AFN. Sets "marked" and "opened" are used to keep track of opened and marked squares to handle them more efficiently. Marked set also keeps track of squares to be flagged because the information about to be flagged/flagged squares is needed before the flag moves have been executed. Bot Game and help bot functions are separated: Bot Game uses makeMove method while help bot uses getPossibleMoves method. There is a major difference in their execution. When using help bot the information gained when it was last called is zeroed. Then the board is examined fully and the current information is stored in the sets.
+
+DoubleSetSinglePointBot makes the first move in a predestined square. This bot's Bot game uses the makeMove method to determine which move is made on the board next. The square that has been opened last is saved in a value named prev. First all the pending flag moves are made on the board. Then the bot will check if prev is a case of AFN. If it is then all of its unmarked unopened neightbours are added to S set. If not then prev is added to the Q set. If there are any squares in the S set then one of them is opened. This opened square is set as prev. If the S set had been empty then the Q set's squares will be gone through to determine if the squares are a case of AMN. In the case of AMN the unmarked unopened neighbours of the square will be added to the marked set and to a set keeping information about the squares that will be flagged. Then the Q set's squares will be gone through to determine if the squares are a case of AFN. In the case of AFN the unmarked unopened squares will be added to S set.
+
+### NaiveSinglePointBot
+
+NaiveSinglePointBot is based on Becerra's pseudocode. This bot was implemented most recently and the pseudocode which it was based one was not specific enough so some critical desicions were made in order to get the bot to perform like it should. This bot's performance is affected by the ordering problem that is mentioned in Becerra's text and is not addressed in the pseudocode. The troubles started when LinkedHashSet sets used were replaced by MySet sets. LinkedHashSet sets keep track of the order of the elements in the set but mySet sets do not. So sometimes the squares will be gone through in a non-optimal order.
+
+As in DoubleSetSinglePoint bot the NaiveSinglePointBot's Bot Game and help bot functions are separated: Bot Game uses makeMove method while help bot uses getPossibleMoves method. The difference between these two bots is that naiveSinglePointBot does have a Q set for squares that will be examined again until they are a case of AMN of AFN. This going through squares that have gained more information about their neighbours is replaced by a function that adds the . A difference between the two pseudocode bots is also that NaiveSinglePointBot Bot game's first move is random when the other bot's first move is not random.
 
 ### MyList
 
-This is my own implementation of a list. 
- This list is presented when the user clicks the help (bot) button. getPossibleMoves must return an ArrayList if I don't change the base code so I made a method in MyList that converts an MyList list to an ArrayList list. Also Board class's getOpenSquares returns a Hashset so I made a constructor to MySet that takes HashSet set as a parameter.
+This is my own implementation of a list. It implements the methods that are needed by the bots: add, addAll, remove, get, isEmpty and size. It uses a array of elements that is reallocated when the array is full. Currently the remove method does not reallocate the array but this fuctionality could be easily implemented if needed to save space.
+
+The base code for the minesweeper game needs the getPossibleMoves to return an ArrayList. That is why MyList has a method toArrayList which returns the MyList as an ArrayList. MyList does not implement the java.util.List interface.
 
 ### MySet
 
+This is my own implementation of a hashed set. It implements the methods that are needed by the bots: add, addAll, remove, contains, indexOf, size, isEmpty and iterator. Myset has also a private method reHash is used to calculate new positions in the array to the elements in set. toString method is used for testing purposes only.
+
+The minesweeper game base's Board class's getOpenSquares returns a Hashset so I made a constructor to MySet that takes HashSet set as a parameter.
 
 ### BotPerformanceEvaluator
 
