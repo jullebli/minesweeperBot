@@ -36,49 +36,59 @@ NaiveSinglePointBot is based on Becerra's pseudocode. This bot was implemented m
 
 As in DoubleSetSinglePoint bot the NaiveSinglePointBot's Bot Game and help bot functions are separated: Bot Game uses makeMove method while help bot uses getPossibleMoves method. The difference between these two bots is that naiveSinglePointBot does have a Q set for squares that will be examined again until they are a case of AMN of AFN. This going through squares that have gained more information about their neighbours is replaced by a function that adds the . A difference between the two pseudocode bots is also that NaiveSinglePointBot Bot game's first move is random when the other bot's first move is not random.
 
+### NaiveSinglePointBotUsingLinkedHashSet
+
+This bot is only used for comparing its performance with NaiveSinglePointBot. These two bots are the same except NaiveSinglePointBot uses MySet and NaiveSinglePointBotUsingLinkedHashSet uses LinkedHashSet. LinkedHashSet is a set implementation that keeps track of the order of the elements in the set. LinkedHashSet was used first in all of the bots creation and testing. Since LinkedHashSet has an order the bots made moves in a more deterministic way and the bugs in their functions could be found easier. Only NaiveSinglePointBot seemed to be affected by changing the sets used to MySet sets.
+
 ### MyList
 
-This is my own implementation of a list. It implements the methods that are needed by the bots: add, addAll, remove, get, isEmpty and size. It uses a array of elements that is reallocated when the array is full. Currently the remove method does not reallocate the array but this fuctionality could be easily implemented if needed to save space.
+This is my own implementation of a list. It implements the methods that are needed by the bots: add, addAll, remove, get, isEmpty and size. It uses an array of elements that is reallocated when the array is full. Currently the remove method does not reallocate the array but this fuctionality could be easily implemented if needed to save space.
 
-The base code for the minesweeper game needs the getPossibleMoves to return an ArrayList. That is why MyList has a method toArrayList which returns the MyList as an ArrayList. MyList does not implement the java.util.List interface.
+The base code for the minesweeper game needs the getPossibleMoves to return an ArrayList. That is why MyList has a method toArrayList which returns the MyList list as an ArrayList list. MyList does not implement the java.util.List interface.
 
 ### MySet
 
-This is my own implementation of a hashed set. It implements the methods that are needed by the bots: add, addAll, remove, contains, indexOf, size, isEmpty and iterator. Myset has also a private method reHash is used to calculate new positions in the array to the elements in set. toString method is used for testing purposes only.
+This is my own implementation of a hashed set. It implements the methods that are needed by the bots: add, addAll, remove, contains, indexOf, size, isEmpty and iterator. A tombstone value is used in the implementation of MySet. A tombstone is switched in the place of a removed element.
 
-The minesweeper game base's Board class's getOpenSquares returns a Hashset so I made a constructor to MySet that takes HashSet set as a parameter.
+MySet has also a private method reHash that is used to calculate new positions in the array to the elements in set. The elements in the array are reallocated and the array size if changed according to the amount of elements in the array. If more than 0.75% of array has elements and/or tombstones then the array is reallocated. The size of the array is increased if there are more than or equal to 50 % of elements in the array (tombstones are not counted). Tombstones are not reallocated. toString method is used for testing purposes only.
+
+The minesweeper game base's Board class's getOpenSquares returns a Hashset so I made a constructor to MySet that takes HashSet set as a parameter to help in converting a HashSet to MySet.
 
 ### BotPerformanceEvaluator
 
-GameResult.java
+This class is used to test the performance of the bots. It returns a print of a table in markdown form containing information about the performance testing. Information contains data of which bot played the games, what difficulty the game was, the win rate and average game duration. The table can be found in the testingDocumentation.md. GameResult class made by me is used in the gathering of information. Gameresult class saves information about if the game was won and the time used in playing the one game.
 
-## Comparative performance and complexity analysis if applicable??
+## Comparative performance analysis
 
+Performane test document can be found in the testingDocument.md.
 
+Win rate (order from best to worst):
+1. SinglePointBot
+2. DoubleSetSinglePointBot
+3. NaiveSinglePointBotUsingLinkedHashSet
+4. NaiveSinglePointBot
 
-## Time and space complexities of the bots
-
-SinglePointBot:
-
-NaiveSinglePointBot:
-
-DoubleSetSinglePointBot:
+Time used to play 1000 games (order from best to worst):
+1. DoubleSetSinglePointBot
+2. NaiveSinglePointBotUsingLinkedHashSet
+3. NaiveSinglePointBot
+4. SinglePointBot
 
 ## Possible flaws and improvements
 
-I implemented Becerra's pseudocode for Naive Single Point algorithm to the NaiveSinglePointBot and could not figure out how to get it to work efficiently. Because there was only one set I was struggling because some squares will not be examined again when there are some changes in the neigbouring squares.
+I implemented Becerra's pseudocode for Naive Single Point algorithm to the NaiveSinglePointBot and could not figure out how to get it to work efficiently using MySet. Because there was only one set I was struggling because some squares will not be examined again when there are some changes in the neigbouring squares.
 
 ### flaws
 
-I could have used the TestApp class. I totally forgot its existence when it game time for testing. I could not figure out the ordering problem in the Naive Single Point algorithm.
+I could have used the TestApp class. I totally forgot its existence. I could not figure out the ordering problem in the Naive Single Point algorithm and there exits a better implementation of the pseudocode.
 
 ### Improvements
 
 - the code could be refactored some more. There are some sections that use same kind of code segments like going through the neighbours of a square.
 - bot using CSP algorithm will most definitely perform better. These bots could be improved with improving the guessing so that it is not completely random.
 - correct the error in NaiveSingleStepBot. How to go through the already gone through squares before making a random move?
-- testing different starting strategies: random or not, which square is the best to start. 
-
+- testing different starting strategies: random or not, which square is the best to start.
+- comparing Becerra's results in more detail (average quesses, deviations etc)
 
 ## Sources
 
