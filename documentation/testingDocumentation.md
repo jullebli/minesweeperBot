@@ -4,19 +4,22 @@ The bots have been tested manually and checked that they function as they should
 
 ## Unit test
 
-Due to the randomness in the making of a board, the bots have few Unit tests. My own datastructures (MyList and Myset) are tested extensively except for the performance evaluator. Test coverage can be found in the jacoco report.
+Due to the randomness in the making of a board, the bots have few Unit tests. My own datastructures (MyList and Myset) are tested extensively except for the performance evaluator.
+
+Jacoco report:
+<img src="https://github.com/jullebli/minesweeperBot/blob/master/documentation/pictures/jacocoResults.png" />
 
 ## Manual testing
 
-The bots have been tested manually several times. First during creation and adding new operations and also after implementing my own data structures MyList and MySet. 
+The bots have been tested manually several times. First during creation and adding new operations and also after implementing my own data structures MyList and MySet. These tests helped to see the difference in performance when using LinkedHashSet vs MySet in NaiveSinglePointBot. To other bots there was no major difference in performance when LinkedHashSet sets were changed to Myset sets.
 
 ### Help bot
 
-All of the bots help function has been tested manually. Most of these games were played so that the player made no own desicions but just executing the suggestions made by the bot. Opening all green squares and putting a flag to all red squares. Every game was won when the bot could make suggestions until the end of the game. In these situations that no squares where highlighted after clicking the "help (bot)" button it was examined if there were safe choices left. After finding all the bugs in the code the help bots have been quite accurate. Some of the games where the bot could not give instructions were lost due to a bad random guess. But many were won because human intellect could solve some problems and then the bot could give instructions again. These bots use single point strategies. That means that they make decisions based on information gained from one point, one square in this situation. This 
+All of the bots help function has been tested manually. Most of these games were played so that the player made no own desicions but just executed the suggestions made by the bot. Opening all green squares and putting a flag to all red squares. Every game was won when the bot could make suggestions until the end of the game. In these situations that no squares where highlighted after clicking the "help (bot)" button it was examined if there were safe choices left. After finding all the bugs in the code the help bots have been quite accurate. Some of the games where the bot could not give instructions were lost due to a bad random guess. But many were won because human intellect could solve some problems and then the bot could give instructions again. These bots use single point strategies. That means that they make decisions based on information gained from one point, one square in this situation. Human player or a CSP algorithm can make decisions based on many points. That is why single point algorithms do not outperform humans in playing minesweeper.
 
 ## Performance testing
 
-I think the major difference in my and Becerra's algorithms win rates is due to the minesweeper game implementation differences. In my base code a safe area is formed surrounding the first opened square. In this safe area there can be no mines. And I think this makes the game easier and the win rates for my bots higher since you get more information by opening a bigger area at first.
+I think the major difference in my and Becerra's algorithm win rates is due to the minesweeper game implementation differences. In my base code a safe area is formed surrounding the first opened square. In this safe area there can be no mines. And I think this makes the game easier and the win rates for my bots higher since you get more information by opening a bigger area at first. The results cannot be compared entirely because my DoubleSetSinglePointBot does not open a random square as first move.
 
 |Bot|Difficulty|Win rate|Average game duration|
 |-----|------|------|------|
