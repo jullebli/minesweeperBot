@@ -17,3 +17,18 @@ All of the bots help function has been tested manually. Most of these games were
 ## Performance testing
 
 I think the major difference in my and Becerra's algorithms win rates is due to the minesweeper game implementation differences. In my base code a safe area is formed surrounding the first opened square. In this safe area there can be no mines. And I think this makes the game easier and the win rates for my bots higher since you get more information by opening a bigger area at first.
+
+|Bot|Difficulty|Win rate|Average game duration|
+|-----|------|------|------|
+|SinglePointBot|Beginner|91.8%|0.52 ms|
+|SinglePointBot|Intermediate|48.8%|2.72 ms|
+|SinglePointBot|Expert|2%|4.53 ms|
+|DoubleSetSinglePointBot|Beginner|89.1%|0.17 ms|
+|DoubleSetSinglePointBot|Intermediate|40.1%|0.43 ms|
+|DoubleSetSinglePointBot|Expert|1.3%|0.47 ms|
+|NaiveSinglePointBot|Beginner|56.1%|0.28 ms|
+|NaiveSinglePointBot|Intermediate|10.1%|0.66 ms|
+|NaiveSinglePointBot|Expert|0%|0.47 ms|
+|NaiveSinglePointBotUsingLinkedHashSet|Beginner|89.8%|0.21 ms|
+|NaiveSinglePointBotUsingLinkedHashSet|Intermediate|45.5%|0.51 ms|
+|NaiveSinglePointBotUsingLinkedHashSet|Expert|1.2%|0.5 ms|
