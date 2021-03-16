@@ -23,7 +23,7 @@ import minesweeper.model.Square;
  */
 public class NaiveSinglePointBot implements Bot {
 
-    private Random rng = new Random(1);
+    private Random rng = new Random();
     private GameStats gameStats;
     private boolean firstMove = true;
     private MySet<Square> setS = new MySet<>();

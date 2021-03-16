@@ -24,7 +24,7 @@ import minesweeper.model.Square;
  */
 public class NaiveSinglePointBotUsingLinkedHashSet implements Bot {
 
-    private Random rng = new Random(1);
+    private Random rng = new Random();
     private GameStats gameStats;
     private boolean firstMove = true;
     private LinkedHashSet<Square> setS = new LinkedHashSet<>();
