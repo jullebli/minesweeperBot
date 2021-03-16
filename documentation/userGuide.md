@@ -29,6 +29,7 @@ The game will use the DoubleSetSinglePointBot as default bot. The bot used can b
 
 - return new SinglePointBot();
 - return new NaiveSinglePointBot();
+- return new NaiveSinglePointBotUsingLinkedHashSet();
 - return new DoubleSetSinglePointBot();
 
 These lines are in the method as comments, just change the commented parts accordingly.
