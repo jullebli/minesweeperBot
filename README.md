@@ -24,6 +24,12 @@ I recommend copying the git repository and then running the program from termina
 
 ## Command line commands:
 
+#### Build
+
+./gradlew build
+
+sometimes some tests are missing from jacoco report even though the jacoco command is run. The missing test results might show if you build the project before running jacoco command.
+
 #### Run: 
 
 ./gradlew run
@@ -52,7 +58,7 @@ The report will be available at build/reports/checkstyle/main.html
 
 The Javadoc will be available at build/docs/javadoc/index.html
 
-### Performance test
+#### Performance test:
 
 ./gradlew -PmainClass=BotPerformanceEvaluator  performanceTest
 

@@ -19,7 +19,7 @@ All of the bots help function has been tested manually. Most of these games were
 
 ## Performance testing
 
-The performance of all of the bots were tested using the BotPerformanceEvaluator class. The class returns a markdown table containing information: Bot used, difficulty of the board, win rate and the average time used to play a game. The values are a bit different every time the class is run due to the randomness in generating the game boards and the bots using a random open move when there are no certain options for opening or flagging a square left.
+The performance of all of the bots were tested using the BotPerformanceEvaluator class. The class returns a markdown table containing information: Bot used, difficulty of the board, win rate and the average time used to play a game. The values are a bit different every time the class is run due to the randomness in generating the game boards and the bots using a random open move when there are no certain options for opening or flagging a square left. Below is performance test results by running 1000 games for each bot for each difficulty level.
 
 |Bot|Difficulty|Win rate|Average game duration|
 |-----|------|------|------|
