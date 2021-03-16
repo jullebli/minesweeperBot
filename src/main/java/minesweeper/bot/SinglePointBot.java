@@ -50,8 +50,6 @@ public class SinglePointBot implements Bot {
         int x = (int) pair.first;
         int y = (int) pair.second;
 
-        //System.out.println("Random move: " + x + ", " + y);
-        //System.out.flush();
         prevMoveWasRandom = true;
         return new Move(MoveType.OPEN, x, y);
 
@@ -90,15 +88,11 @@ public class SinglePointBot implements Bot {
     private MyList<Move> getPossibleMovesAsMyList(Board board, boolean returnAllMoves) {
         MyList<Move> moves = getPossibleMovesUsingAMN(board);
         if (moves.size() > 0 && !returnAllMoves) {
-            // System.out.println("Algo1 Move: " + moves.get(0).x + ", " + moves.get(0).y);
-            // System.out.flush();
             return moves;
         }
 
         moves.addAll(getPossibleMovesUsingAFN(board));
         if (moves.size() > 0 && !returnAllMoves) {
-            //System.out.println("Algo2 Move: " + moves.get(0).x + ", " + moves.get(0).y);
-            //System.out.flush();
             return moves;
         }
         return moves;
@@ -143,7 +137,6 @@ public class SinglePointBot implements Bot {
             }
             if (surroundingMines == surroundingUnopened.size()) {
                 for (Square unopenedSquare : surroundingUnopened) {
-                    // movesToMake.add(new Move(unopenedSquare.getX(), unopenedSquare.getY(), Highlight.RED));
                     if (!unopenedSquare.isFlagged()) {
                         movesToMake.add(new Move(MoveType.FLAG, unopenedSquare.getX(), unopenedSquare.getY()));
                     }

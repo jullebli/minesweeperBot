@@ -49,23 +49,15 @@ public class DoubleSetSinglePointBot implements Bot {
             return new Move(MoveType.FLAG, s.getX(), s.getY());
         }
 
-        /* System.out.println("makeMove called: S = "
-                + squareSetToString(setS) + "\n Q = "
-                + squareSetToString(setQ) + "\n marked = "
-                + squareSetToString(marked) + "\n prev = "
-                + squareToString(prev)); */
         if (firstMove) {
             firstMove = false;
             prev = board.getSquareAt(0, 0);
-            //System.out.println("First move");
             return openMove(prev);
         }
 
         if (isAFN(prev, board)) {
-            //System.out.println("isAFN = true");
             setS.addAll(getUnmarkedNeighbours(prev, board));
         } else {
-            //System.out.println("isAFN = false, prev added to setQ");
             setQ.add(prev);
         }
 
@@ -73,19 +65,14 @@ public class DoubleSetSinglePointBot implements Bot {
             if (!setS.isEmpty()) {
                 prev = setS.iterator().next();
                 setS.remove(prev);
-                //System.out.println("setS is not empty returning "
-                //        + squareToString(prev));
                 return openMove(prev);
             }
 
             Iterator<Square> it = setQ.iterator();
             while (it.hasNext()) {
                 Square q = it.next();
-                //System.out.println("Checking isAMN(" + squareToString(q) + ")");
                 if (isAMN(q, board)) {
-                    //System.out.println("isAMN = true");
                     for (Square y : getUnmarkedNeighbours(q, board)) {
-                        //System.out.println("marked.add(" + squareToString(y) + ")");
                         marked.add(y);
                         flagsToDraw.add(y);
                     }
@@ -96,17 +83,13 @@ public class DoubleSetSinglePointBot implements Bot {
             Iterator<Square> it2 = setQ.iterator();
             while (it2.hasNext()) {
                 Square q = it2.next();
-                //System.out.println("Checking isAFN(" + squareToString(q) + ")");
                 if (isAFN(q, board)) {
-                    //System.out.println("isAFN = true");
                     setS.addAll(getUnmarkedNeighbours(q, board));
                     it2.remove();
                 }
             }
 
             if (setS.isEmpty()) {
-                //Here should be the third algorithm CSP? Now just random square
-                //System.out.println("Picking random (S is empty)");
                 Pair<Integer> pair = findUnopenedUnmarkedRandomSquare(board);
                 int x = (int) pair.first;
                 int y = (int) pair.second;
@@ -136,8 +119,6 @@ public class DoubleSetSinglePointBot implements Bot {
      * @return List of moves for current board
      */
     public MyList<Move> getPossibleMovesAsMyList(Board board) {
-        //System.out.println("Help(bot) was clicked");
-
         setS = new MySet<>();
         setQ = new MySet<>();
         marked = new MySet<>();
@@ -164,11 +145,8 @@ public class DoubleSetSinglePointBot implements Bot {
             Iterator<Square> it = setQ.iterator();
             while (it.hasNext()) {
                 Square q = it.next();
-                //System.out.println("Checking isAMN(" + squareToString(q) + ")");
                 if (isAMN(q, board)) {
-                    //System.out.println("isAMN = true");
                     for (Square y : getUnmarkedNeighbours(q, board)) {
-                        //System.out.println("marked.add(" + squareToString(y) + ")");
                         marked.add(y);
                     }
                     it.remove();
@@ -178,9 +156,7 @@ public class DoubleSetSinglePointBot implements Bot {
             Iterator<Square> it2 = setQ.iterator();
             while (it2.hasNext()) {
                 Square q = it2.next();
-                //System.out.println("Checking isAFN(" + squareToString(q) + ")");
                 if (isAFN(q, board)) {
-                    //System.out.println("isAFN = true");
                     setS.addAll(getUnmarkedNeighbours(q, board));
                     it2.remove();
                 }
@@ -192,13 +168,12 @@ public class DoubleSetSinglePointBot implements Bot {
         for (Square square : setS) {
             moves.add(new Move(square.getX(), square.getY(), Highlight.GREEN));
         }
-        //System.out.println("Size of possible moves list = " + moves.size());
+
         for (Square square : marked) {
             if (!square.isFlagged()) {
                 moves.add(new Move(square.getX(), square.getY(), Highlight.RED));
             }
         }
-
         return moves;
     }
 
@@ -228,7 +203,6 @@ public class DoubleSetSinglePointBot implements Bot {
                 }
             }
         }
-        //System.out.println("isAFN(" + squareToString(square) + ") = " + flaggedNeighbours);
         return square.surroundingMines() == markedNeighbours;
     }
 
@@ -343,7 +317,6 @@ public class DoubleSetSinglePointBot implements Bot {
 
         Pair<Integer> pair = new Pair<>(0, 0);
 
-        // Randomly generate X,Y coordinate pairs that are not opened
         while (!unOpenedSquare) {
             x = rng.nextInt(board.width);
             y = rng.nextInt(board.height);

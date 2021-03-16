@@ -50,19 +50,12 @@ public class NaiveSinglePointBotUsingLinkedHashSet implements Bot {
             return new Move(MoveType.FLAG, s.getX(), s.getY());
         }
 
-//        System.out.println("makeMove called: S = "
-//                + squareSetToString(setS) + "\n marked = "
-//                + squareSetToString(marked) + "\n prev = "
-//                + squareToString(prev));
         if (!firstMove) {
             if (isAFN(prev, board)) {
-//                System.out.println("isAFN = true");
                 setS.addAll(getUnmarkedNeighbours(prev, board));
             } else if (isAMN(prev, board)) {
-//                System.out.println("isAMN = true");
 
                 for (Square y : getUnmarkedNeighbours(prev, board)) {
-//                    System.out.println("marked.add(" + squareToString(y) + ")");
                     if (!isMarked(y)) {
                         //adding new flag -> add opened neighbours of marked square
                         setS.addAll(getOpenedNeighbours(y, board));
@@ -85,7 +78,7 @@ public class NaiveSinglePointBotUsingLinkedHashSet implements Bot {
                 flagsToDraw.remove(0);
                 return new Move(MoveType.FLAG, s.getX(), s.getY());
             }
-//            System.out.println("Picking random (S is empty)");
+
             Pair<Integer> pair = findUnopenedSquare(board);
             int x = (int) pair.first;
             int y = (int) pair.second;
@@ -97,7 +90,6 @@ public class NaiveSinglePointBotUsingLinkedHashSet implements Bot {
         prev = setS.iterator().next();
         prevOpenedFirstTime = !opened.contains(prev);
         setS.remove(prev);
-//        System.out.println("Returning " + squareToString(prev));
         return openMove(prev);
     }
 
@@ -109,7 +101,6 @@ public class NaiveSinglePointBotUsingLinkedHashSet implements Bot {
      */
     @Override
     public ArrayList<Move> getPossibleMoves(Board board) {
-        //This does not work yet
         ArrayList<Move> arrayList = getPossibleMovesAsMyList(board).toArrayList();
         return arrayList;
     }
@@ -121,7 +112,6 @@ public class NaiveSinglePointBotUsingLinkedHashSet implements Bot {
      * @return List of moves for current board.
      */
     public MyList<Move> getPossibleMovesAsMyList(Board board) {
-//        System.out.println("Help(bot) was clicked");
         setS = new LinkedHashSet<>();
         marked = new LinkedHashSet<>();
         opened = new LinkedHashSet<>();
@@ -150,7 +140,7 @@ public class NaiveSinglePointBotUsingLinkedHashSet implements Bot {
         for (Square square : setS) {
             moves.add(new Move(square.getX(), square.getY(), Highlight.GREEN));
         }
-//        System.out.println("Size of possible moves list = " + moves.size());
+        
         for (Square square : marked) {
             if (!square.isFlagged()) {
                 moves.add(new Move(square.getX(), square.getY(), Highlight.RED));
@@ -185,7 +175,6 @@ public class NaiveSinglePointBotUsingLinkedHashSet implements Bot {
                 }
             }
         }
-        //System.out.println("isAFN(" + squareToString(square) + ") = " + flaggedNeighbours);
         return square.surroundingMines() == markedNeighbours;
     }
 
@@ -200,14 +189,7 @@ public class NaiveSinglePointBotUsingLinkedHashSet implements Bot {
      * @return true if the specified square is an AMN case
      */
     private boolean isAMN(Square square, Board board) {
-        boolean debug = square.getX() == 0 && square.getY() == 6;
         LinkedHashSet<Square> markedNeighbours = getMarkedNeighbours(square, board);
-        //System.out.println("AMN:markedNeighbours = " + markedNeighbours.size());
-        if (debug) {
-//      System.out.println("markedNeighbours = " + squareSetToString(markedNeighbours) 
-//      + " surroundingMines = " + square.surroundingMines() + " unmarkedNeighbours = "
-//      + squareSetToString(getUnmarkedNeighbours(square, board)));
-        }
         return square.surroundingMines() - markedNeighbours.size()
                 == getUnmarkedNeighbours(square, board).size();
     }
@@ -320,7 +302,6 @@ public class NaiveSinglePointBotUsingLinkedHashSet implements Bot {
     public Pair<Integer> findUnopenedSquare(Board board) {
         Boolean unOpenedSquare = false;
 
-        // board.getOpenSquares allows access to already opened squares
         LinkedHashSet<Square> opened = new LinkedHashSet(board.getOpenSquares());
         int x;
         int y;
