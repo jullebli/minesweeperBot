@@ -1,17 +1,17 @@
 # Documentation for testing
 
-The bots have been tested manually and checked that they function as they should. A lot of prints have been added to help manual testing. Some classes offer methods that help converting the squares and sets to a readable understandable String value.
+The bots have been tested manually and checked that they function as they should. A lot of prints have been added to help manual testing but they have been feleted from the final form of the project. Some classes offer methods that help manual testing by converting the squares and sets to a readable understandable String value.
 
 ## Unit test
 
-Due to the randomness in the making of a board, the bots have few Unit tests. My own datastructures (MyList and Myset) are tested extensively except for the performance evaluator.
+Due to the randomness in the making of a board and the bots's decisions, the bots have few Unit tests. For the bots it is most important to test that every lost game end with a random open move. My own datastructures (MyList and Myset) are tested extensively except for the performance evaluator.
 
 Jacoco report:
 <img src="https://github.com/jullebli/minesweeperBot/blob/master/documentation/pictures/jacocoResults.png" />
 
 ## Manual testing
 
-The bots have been tested manually several times. First during creation and adding new operations and also after implementing my own data structures MyList and MySet. These tests helped to see the difference in performance when using LinkedHashSet vs MySet in NaiveSinglePointBot. To other bots there was no major difference in performance when LinkedHashSet sets were changed to Myset sets.
+The bots have been tested manually several times. First during creation and adding new operations and also after implementing my own data structures MyList and MySet. These tests helped to see the difference in performance when using LinkedHashSet vs MySet in NaiveSinglePointBot. To other bots there was no major difference in performance when LinkedHashSet sets were changed to Myset sets. Using LinkedHashSet sets helped in making the bots execution more deterministic which is essential in finding bugs and figuring out the order in which the bot makes decisions.
 
 ### Help bot
 
@@ -19,7 +19,7 @@ All of the bots help function has been tested manually. Most of these games were
 
 ## Performance testing
 
-I think the major difference in my and Becerra's algorithm win rates is due to the minesweeper game implementation differences. In my base code a safe area is formed surrounding the first opened square. In this safe area there can be no mines. And I think this makes the game easier and the win rates for my bots higher since you get more information by opening a bigger area at first. The results cannot be compared entirely because my DoubleSetSinglePointBot does not open a random square as first move.
+The performance of all of the bots were tested using the BotPerformanceEvaluator class. The class returns a markdown table containing information: Bot used, difficulty of the board, win rate and the average time used to play a game. The values are a bit different every time the class is run due to the randomness in generating the game boards and the bots using a random open move when there are no certain options for opening or flagging a square left.
 
 |Bot|Difficulty|Win rate|Average game duration|
 |-----|------|------|------|
@@ -38,4 +38,6 @@ I think the major difference in my and Becerra's algorithm win rates is due to t
 
 The test results in Becerra's thesis:
 
-<img src="https://github.com/jullebli/minesweeperBot/blob/master/documentation/BecerraResults.png" />
+<img src="https://github.com/jullebli/minesweeperBot/blob/master/documentation/pictures/BecerraResults.png" />
+
+I think the major difference in my and Becerra's algorithm win rates is due to the minesweeper game implementation differences. In my base code a safe area is formed surrounding the first opened square. In this safe area there can be no mines. And I think this makes the game easier and the win rates for my bots higher since you get more information by opening a bigger area at first. The results cannot be compared entirely because my DoubleSetSinglePointBot does not open a random square as first move.

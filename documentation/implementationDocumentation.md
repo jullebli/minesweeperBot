@@ -60,7 +60,20 @@ This class is used to test the performance of the bots. It returns a print of a 
 
 ## Comparative performance analysis
 
-Performane test document can be found in the testingDocument.md.
+|Bot|Difficulty|Win rate|Average game duration|
+|-----|------|------|------|
+|SinglePointBot|Beginner|91.8%|0.52 ms|
+|SinglePointBot|Intermediate|48.8%|2.72 ms|
+|SinglePointBot|Expert|2%|4.53 ms|
+|DoubleSetSinglePointBot|Beginner|89.1%|0.17 ms|
+|DoubleSetSinglePointBot|Intermediate|40.1%|0.43 ms|
+|DoubleSetSinglePointBot|Expert|1.3%|0.47 ms|
+|NaiveSinglePointBot|Beginner|56.1%|0.28 ms|
+|NaiveSinglePointBot|Intermediate|10.1%|0.66 ms|
+|NaiveSinglePointBot|Expert|0%|0.47 ms|
+|NaiveSinglePointBotUsingLinkedHashSet|Beginner|89.8%|0.21 ms|
+|NaiveSinglePointBotUsingLinkedHashSet|Intermediate|45.5%|0.51 ms|
+|NaiveSinglePointBotUsingLinkedHashSet|Expert|1.2%|0.5 ms|
 
 Win rate (order from best to worst):
 1. SinglePointBot
@@ -68,7 +81,7 @@ Win rate (order from best to worst):
 3. NaiveSinglePointBotUsingLinkedHashSet
 4. NaiveSinglePointBot
 
-Time used to play 1000 games (order from best to worst):
+Average time used to play 1000 games (order from best to worst):
 1. DoubleSetSinglePointBot
 2. NaiveSinglePointBotUsingLinkedHashSet
 3. NaiveSinglePointBot
@@ -86,7 +99,7 @@ I could have used the TestApp class. I totally forgot its existence. I could not
 
 - the code could be refactored some more. There are some sections that use same kind of code segments like going through the neighbours of a square.
 - bot using CSP algorithm will most definitely perform better. These bots could be improved with improving the guessing so that it is not completely random.
-- correct the error in NaiveSingleStepBot. How to go through the already gone through squares before making a random move?
+- correct the error in NaiveSingleStepBot. How to go through the already gone through squares before making a random move? or just checking the randomly selected first if it is AMN or AFN? If it is then act accordingly and if need be pick another random. And check that again before opening.
 - testing different starting strategies: random or not, which square is the best to start.
 - comparing Becerra's results in more detail (average quesses, deviations etc)
 

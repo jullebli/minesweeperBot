@@ -15,6 +15,7 @@ public class BotSelect {
         CHECK UserGuide.md FOR INSTRUCTIONS */
         //return new SinglePointBot();
         //return new NaiveSinglePointBot();
+        //return new NaiveSinglePointBotUsingLinkedHashSet();
         return new DoubleSetSinglePointBot();
     }
 }
